@@ -1,0 +1,36 @@
+# 三条主线。icon 取 assets/icons/ 下的文件名（不带 .svg）
+# accent: gold | purple | green | blue
+
+- title: Electrolyte screening at scale
+  icon: flask
+  accent: blue
+  blurb: >-
+    An end-to-end pipeline that takes candidate SMILES to measured transport
+    properties: structural filtering, xTB/DFT descriptors, automated GROMACS
+    box building, and RDF / conductivity analysis — with the throughput to
+    run hundreds of formulations rather than a handful.
+  note: "~10k atoms a box, hundreds of boxes"
+  links:
+    - { label: code, url: "https://github.com/qinanh/simulation_workflow" }
+
+- title: Generative models of Li⁺ solvation
+  icon: nn_purple
+  accent: green
+  blurb: >-
+    A conditional diffusion model that learns the full <em>distribution</em> of
+    Li⁺ first-solvation-shell structure directly from MD, routed through a
+    continuous 3D interaction-field representation — and tested on electrolyte
+    chemistries it has never seen.
+  note: "455 formulations · 227,680 Li environments"
+  links: []
+
+- title: Language models that know electrolyte physics
+  icon: books_stack
+  accent: gold
+  blurb: >-
+    27,000 papers on lithium-metal electrolytes carry mechanisms and design
+    rules that never reach a training table. I train reasoning models against
+    <em>verifiable</em> rewards — simulation and experiment as the grader —
+    so the chemistry knowledge becomes something you can check.
+  note: "ACS Fall 2026"
+  links: []

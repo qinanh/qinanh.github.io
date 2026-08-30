@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title | default: site.title }}</title>
+<meta name="description" content="{{ site.description | strip_newlines }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<!-- 社交分享卡片：在 X / Slack / 微信里贴链接时会用到 -->
+<meta property="og:type"        content="website">
+<meta property="og:title"       content="{{ site.title }} — {{ site.tagline }}">
+<meta property="og:description" content="{{ site.description | strip_newlines }}">
+<meta property="og:url"         content="{{ site.url }}{{ site.baseurl }}/">
+<meta property="og:image"       content="{{ '/assets/img/og.png' | absolute_url }}">
+<meta name="twitter:card"       content="summary_large_image">
+
+<link rel="icon" href="{{ '/assets/icons/flask.svg' | relative_url }}" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Fredoka:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+{%- feed_meta -%}
+</head>
+<body>
+<main>
+{{ content }}
+
+<footer>
+  <span>© {{ 'now' | date: "%Y" }} {{ site.author.name }} · built with Jekyll, drawn by hand</span>
+  <img class="doodle" src="{{ '/assets/icons/sparkle_gold.svg' | relative_url }}" alt="">
+</footer>
+</main>
+</body>
+</html>

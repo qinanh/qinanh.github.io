@@ -1,0 +1,83 @@
+# 来源：Google Scholar（2026-08 用户提供）+ CrossRef / arXiv 补全作者与卷期页
+# me: true 标出自己；thumb 是 assets/img/ 下的文件名
+- title: "Active-GRPO: Adaptive Imitation and Self-Improving Reasoning for Molecular Optimization"
+  venue: arXiv preprint
+  year: 2026
+  accent: purple
+  thumb: thumb_rl.svg
+  authors: [{name: "Xuefeng Liu"}, {name: "Mingxuan Cao"}, {name: "Qinan Huang", me: true},
+            {name: "Thomas Brettin"}, {name: "Rick Stevens"}, {name: "Le Cong"}]
+  links: [{label: arXiv, url: "https://arxiv.org/abs/2607.00531"}]
+
+- title: "FragmentGPT: A Unified GPT Model for Fragment Growing, Linking, and Merging in Molecular Design"
+  venue: arXiv preprint
+  year: 2025
+  accent: blue
+  thumb: thumb_gen.svg
+  authors: [{name: "Xuefeng Liu"}, {name: "Songhao Jiang"}, {name: "Qinan Huang", me: true},
+            {name: "Tinson Xu"}, {name: "Ian Foster"}, {name: "Mengdi Wang"},
+            {name: "Hening Lin"}, {name: "Rick Stevens"}]
+  links: [{label: arXiv, url: "https://arxiv.org/abs/2509.11044"}]
+
+- title: "Rhodium(I)-catalyzed annulation of bicyclo[1.1.0]butyl-substituted dihydroquinolines and dihydropyridines"
+  venue: J. Am. Chem. Soc. 146, 14927–14934
+  year: 2024
+  accent: rust
+  thumb: mol_bcb.svg
+  authors: [{name: "Matteo Borgini"}, {name: "Qi-Nan Huang", me: true}, {name: "Pan-Pan Chen"},
+            {name: "Steven J. Geib"}, {name: "K. N. Houk"}, {name: "Peter Wipf"}]
+  links: [{label: paper, url: "https://doi.org/10.1021/jacs.4c04081"}]
+
+- title: "Binding affinity prediction: from conventional to machine learning-based approaches"
+  venue: arXiv preprint
+  year: 2024
+  accent: green
+  thumb: thumb_ml.svg
+  authors: [{name: "Xuefeng Liu"}, {name: "Songhao Jiang"}, {name: "Xiaotian Duan"},
+            {name: "Archit Vasan"}, {name: "Qinan Huang", me: true}, {name: "Chong Liu"},
+            {name: "Michelle M. Li"}, {name: "Heng Ma"}, {name: "Thomas Brettin"},
+            {name: "Arvind Ramanathan"}, {name: "Fangfang Xia"}, {name: "Mengdi Wang"},
+            {name: "Abhishek Pandey"}, {name: "Marinka Zitnik"}, {name: "Ian T. Foster"},
+            {name: "Jinbo Xu"}, {name: "Rick L. Stevens"}]
+  links: [{label: arXiv, url: "https://arxiv.org/abs/2410.00709"}]
+
+- title: "Cross-coupling by a noncanonical mechanism involving the addition of aryl halide to Cu(II)"
+  venue: Science 381, 1079–1085
+  year: 2023
+  accent: rust
+  thumb: mol_arylhalide.svg
+  authors: [{name: "Connor P. Delaney"}, {name: "Eva Lin"}, {name: "Qinan Huang", me: true},
+            {name: "Isaac F. Yu"}, {name: "Guodong Rao"}, {name: "Lizhi Tao"}, {name: "Ana Jed"},
+            {name: "Serena M. Fantasia"}, {name: "Kurt A. Püntener"}, {name: "R. David Britt"},
+            {name: "John F. Hartwig"}]
+  links: [{label: paper, url: "https://doi.org/10.1126/science.adi9226"}]
+
+- title: "C(sp²)–H cyclobutylation of hydroxyarenes enabled by silver-π-acid catalysis: diastereocontrolled synthesis of 1,3-difunctionalized cyclobutanes"
+  venue: Chem. Sci. 14, 9696–9703
+  year: 2023
+  accent: gold
+  thumb: mol_cyclobutane.svg
+  authors: [{name: "Lei Tang"}, {name: "Qi-Nan Huang", me: true}, {name: "Feng Wu"},
+            {name: "Yuanjiu Xiao"}, {name: "Jin-Lan Zhou"}, {name: "Tong-Tong Xu"},
+            {name: "Wen-Biao Wu"}, {name: "Shuanglin Qu"}, {name: "Jian-Jun Feng"}]
+  links: [{label: paper, url: "https://doi.org/10.1039/D3SC03258B"}]
+
+- title: "Accurate potential energy surfaces using atom-centered potentials and minimal high-level data"
+  venue: J. Phys. Chem. A 127, 8015–8024
+  year: 2023
+  accent: blue
+  thumb: thumb_pes.svg
+  authors: [{name: "Mahsa Nazemi Ashani"}, {name: "Qinan Huang", me: true},
+            {name: "A. Mackenzie Flowers"}, {name: "Alex Brown"}, {name: "Antoine Aerts"},
+            {name: "Alberto Otero-de-la-Roza"}, {name: "Gino A. DiLabio"}]
+  links: [{label: paper, url: "https://doi.org/10.1021/acs.jpca.3c04558"}]
+
+- title: "Measurement and correlation for solubilities of adipic acid, glutaric acid, and succinic acid in different alcohol solvents"
+  venue: J. Chem. Eng. Data 67, 245–256
+  year: 2022
+  accent: green
+  thumb: mol_adipic.svg
+  authors: [{name: "Yangyi Huang"}, {name: "Lin Zhang"}, {name: "Mengqi Yan"},
+            {name: "Qinan Huang", me: true}, {name: "Yuning Zhang"}, {name: "Yanqun Ren"},
+            {name: "Weiping Luo"}]
+  links: [{label: paper, url: "https://doi.org/10.1021/acs.jced.1c00699"}]

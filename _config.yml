@@ -1,0 +1,45 @@
+# ── 站点身份 ──────────────────────────────────────────────
+title:  Qinan Huang
+tagline: Computational electrolyte design
+description: >-
+  Qinan Huang — molecular simulation, quantum chemistry and generative
+  models for lithium-metal battery electrolytes.
+url:      "https://qinanh.com"
+baseurl:  ""
+lang:     en
+
+author:
+  name:        Qinan Huang
+  role:        PhD student                 # ← 改成你的实际身份
+  group:       Amanchukwu Lab
+  department:  Pritzker School of Molecular Engineering
+  institution: The University of Chicago
+  photo:       /assets/img/portrait.jpg    # ← 放一张头像进来
+  email:       qinanhuang6@gmail.com     # 旧站上公开的那个；要换成学校邮箱就改这里
+  # 下面几项确认后取消注释即可显示
+  github:      qinanh          # gh CLI 登录的是这个号；要用 tetryl-boy 就改这里
+  # scholar:   XXXXXXXXXXXX                # Google Scholar user= 后面那串
+  # orcid:     0000-0000-0000-0000
+  twitter:     EricQinanHuang
+  linkedin:    qinan-huang-516551237
+  # cv:        /assets/cv.pdf           # 放 PDF 到 assets/ 后取消注释
+
+# ── 构建 ─────────────────────────────────────────────────
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+sass:
+  style: compressed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - README.md
+  - .jekyll-cache

@@ -1,0 +1,10 @@
+# date 随便写成什么样都行，原样显示；建议 "Aug ’26" 这种短格式
+- date: "Aug ’26"
+  html: >-
+    Talk at <strong>ACS Fall 2026</strong> — <em>Teaching Language Models
+    Electrolyte Physics with Verifiable Rewards</em>.
+
+- date: "Aug ’26"
+  html: >-
+    Released <a href="https://github.com/qinanh/xyzrender">xyzrender</a> —
+    molecules and orbitals to transparent SVG in one command.

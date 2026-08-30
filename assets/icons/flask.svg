@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70"><defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#5A6570"/></marker>
+<marker id="arrRev" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+  <path d="M 10 0 L 0 5 L 10 10 z" fill="#5A6570"/></marker>
+<marker id="arrGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#B07D1E"/></marker>
+<marker id="arrPurp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2E5C8A"/></marker>
+<marker id="arrGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1F6F6B"/></marker>
+<marker id="arrInk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B3138"/></marker>
+<marker id="arrInkS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B3138"/></marker>
+</defs><path d="M 15.531200000000002 47.44 L 7.960000000000001 56.8 Q 5.960000000000001 62 14.200000000000001 62 L 55.8 62 Q 64.03999999999999 62 62.04 56.8 L 54.4688 47.44 Z" fill="#7BA3C4"/><path d="M 23.560000000000002 10 L 23.560000000000002 29.759999999999998 L 7.960000000000001 56.8 Q 5.960000000000001 62 14.200000000000001 62 L 55.8 62 Q 64.03999999999999 62 62.04 56.8 L 46.44 29.759999999999998 L 46.44 10 Z" fill="none" stroke="#2B3138" stroke-width="2.4" stroke-linejoin="round"/><line x1="21.060000000000002" y1="10" x2="48.94" y2="10" stroke="#2B3138" stroke-width="2.6" stroke-linecap="round"/></svg>

@@ -1,0 +1,6 @@
+# 首屏下面那条"作品带"。图放 assets/img/，caption 用手写体显示。
+# 想换图就改这里；清空则整条隐藏。
+- { img: md_box_cg.svg,          cap: "an electrolyte box",   accent: blue }
+- { img: li_solvation_shell.svg, cap: "Li⁺ first shell",      accent: rust }
+- { img: ec_lumo.svg,            cap: "EC π* LUMO",           accent: gold }
+- { img: li_field_motif.png,     cap: "a learned Li field",   accent: green }

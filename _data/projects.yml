@@ -1,0 +1,17 @@
+- name: xyzrender
+  icon: mini_orbital
+  accent: rust
+  blurb: XYZ / PDB / SMILES / cube → publication-quality transparent SVG, PNG and GIF. Molecular orbitals, MD boxes, solvation shells.
+  url: "https://github.com/qinanh/xyzrender"
+
+- name: simulation_workflow
+  icon: flask
+  accent: blue
+  blurb: Li-metal electrolyte MD + screening pipeline. LigParGen → xTB descriptors → GROMACS → transport and RDF analysis.
+  url: ""    # 私有仓库，不外链
+
+- name: ElectraG
+  icon: doc_cards_stack
+  accent: gold
+  blurb: Retrieval-augmented prediction of Coulombic efficiency from electrolyte composition, grounded in 153 papers.
+  url: ""    # 私有，不外链

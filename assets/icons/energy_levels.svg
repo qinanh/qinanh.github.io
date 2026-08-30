@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 90"><defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#5A6570"/></marker>
+<marker id="arrRev" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+  <path d="M 10 0 L 0 5 L 10 10 z" fill="#5A6570"/></marker>
+<marker id="arrGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#B07D1E"/></marker>
+<marker id="arrPurp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2E5C8A"/></marker>
+<marker id="arrGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#1F6F6B"/></marker>
+<marker id="arrInk" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B3138"/></marker>
+<marker id="arrInkS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+  <path d="M 0 0 L 10 5 L 0 10 z" fill="#2B3138"/></marker>
+</defs><line x1="15" y1="72" x2="15" y2="6" stroke="#2B3138" stroke-width="2.2" marker-end="url(#arrInk)"/><line x1="33.0" y1="58.800000000000004" x2="77.0" y2="58.800000000000004" stroke="#5B8FC9" stroke-width="3.4" stroke-linecap="round"/><line x1="33.0" y1="22.799999999999997" x2="77.0" y2="22.799999999999997" stroke="#C77B7B" stroke-width="3.4" stroke-linecap="round"/><line x1="46.0" y1="67.80000000000001" x2="46.0" y2="49.800000000000004" stroke="#2B3138" stroke-width="2" marker-end="url(#arrInkS)"/><line x1="58.0" y1="49.800000000000004" x2="58.0" y2="67.80000000000001" stroke="#2B3138" stroke-width="2" marker-end="url(#arrInkS)"/><line x1="93.0" y1="54.800000000000004" x2="93.0" y2="26.799999999999997" stroke="#5A6570" stroke-width="2.2" stroke-dasharray="4 4" marker-end="url(#arr)" marker-start="url(#arrRev)"/></svg>
