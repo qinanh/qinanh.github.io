@@ -73,3 +73,21 @@ Pages 那边一直卡在 "certificate provisioning"。
 **任何仓库都不转 public。** `simulation_workflow`、`electrag`、`li_field_diffusion`
 这些在主页上只出现描述，`url` 一律留空，不外链。唯一例外是本来就公开的
 `qinanh/xyzrender`。
+
+## 论文缩略图：`assets/pub/`
+
+`_data/publications.yml` 里的 `thumb:` 从 **`assets/pub/`** 取，显示在 246×164 的宽框里。
+
+- `fig_*.png` / `.jpg` —— 从原文抽出来的插图，默认 `object-fit: contain`（完整显示不裁）
+- `mol_*.svg` —— xyzrender 从 SMILES 渲的结构图，方形，要加 `fit: cover` 才能填满宽框
+
+**出版社 PDF 放 `_papers/`，不要放 `assets/`。** 下划线开头的目录 Jekyll 从不发布；
+放进 `assets/` 会被原样发到 `qinanh.com/assets/pub/xxx.pdf` 上去。`_papers/` 已在
+`.gitignore` 里，只作抽图来源留在本地。
+
+抽图流程（页码和裁切框是一篇一篇看出来的，没有通用脚本）：
+
+```bash
+pdftocairo -png -r 200 -f <页码> -l <页码> _papers/xxx.pdf /tmp/pg
+# 看图定裁切框，再用 PIL crop 到 assets/pub/
+```

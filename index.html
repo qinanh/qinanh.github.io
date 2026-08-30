@@ -108,7 +108,7 @@ layout: default
       <div class="lead">
         <div class="jbadge">{{ p.journal }}{% if p.year %} <span class="yr">{{ p.year }}</span>{% endif %}</div>
         <div class="thumb">
-          {%- if p.thumb %}<img class="{{ p.fit }}" src="{{ '/assets/img/' | append: p.thumb | relative_url }}" alt="">
+          {%- if p.thumb %}<img class="{{ p.fit }}" src="{{ '/assets/pub/' | append: p.thumb | relative_url }}" alt="">
           {%- else %}<img class="empty" src="{{ '/assets/icons/mini_orbital.svg' | relative_url }}" alt="">{% endif %}
         </div>
       </div>

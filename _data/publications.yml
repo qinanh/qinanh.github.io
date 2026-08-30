@@ -1,5 +1,5 @@
 # journal 进缩略图上方的彩色徽章；detail 是卷期页，显示在标题下方
-# thumb 是 246x164 的宽缩略图。默认 contain（原文插图不裁）；
+# thumb 从 assets/pub/ 取，246x164 宽框。默认 contain（原文插图不裁）；
 # 方形的分子结构图加 fit: cover，裁满宽框才不会显得空
 # 来源：Google Scholar（2026-08 用户提供）+ CrossRef / arXiv 补全作者与卷期页
 # me: true 标出自己；thumb 是 assets/img/ 下的文件名
@@ -27,8 +27,7 @@
   detail: "146, 14927–14934"
   year: 2024
   accent: rust
-  thumb: mol_bcb.svg
-  fit: cover        # 方图裁满宽框，分子放大 1.5x
+  thumb: fig_jacs.png
   authors: [{name: "Matteo Borgini"}, {name: "Qi-Nan Huang", me: true}, {name: "Pan-Pan Chen"},
             {name: "Steven J. Geib"}, {name: "K. N. Houk"}, {name: "Peter Wipf"}]
   links: [{label: paper, url: "https://doi.org/10.1021/jacs.4c04081"}]
@@ -51,8 +50,7 @@
   detail: "381, 1079–1085"
   year: 2023
   accent: rust
-  thumb: mol_arylhalide.svg
-  fit: cover        # 方图裁满宽框，分子放大 1.5x
+  thumb: fig_science.png
   authors: [{name: "Connor P. Delaney"}, {name: "Eva Lin"}, {name: "Qinan Huang", me: true},
             {name: "Isaac F. Yu"}, {name: "Guodong Rao"}, {name: "Lizhi Tao"}, {name: "Ana Jed"},
             {name: "Serena M. Fantasia"}, {name: "Kurt A. Püntener"}, {name: "R. David Britt"},
@@ -64,8 +62,7 @@
   detail: "14, 9696–9703"
   year: 2023
   accent: gold
-  thumb: mol_cyclobutane.svg
-  fit: cover        # 方图裁满宽框，分子放大 1.5x
+  thumb: fig_chemsci.png
   authors: [{name: "Lei Tang"}, {name: "Qi-Nan Huang", me: true}, {name: "Feng Wu"},
             {name: "Yuanjiu Xiao"}, {name: "Jin-Lan Zhou"}, {name: "Tong-Tong Xu"},
             {name: "Wen-Biao Wu"}, {name: "Shuanglin Qu"}, {name: "Jian-Jun Feng"}]
@@ -76,8 +73,7 @@
   detail: "127, 8015–8024"
   year: 2023
   accent: blue
-  thumb: thumb_pes.svg
-  fit: cover        # 方图裁满宽框，分子放大 1.5x
+  thumb: fig_jpca.png
   authors: [{name: "Mahsa Nazemi Ashani"}, {name: "Qinan Huang", me: true},
             {name: "A. Mackenzie Flowers"}, {name: "Alex Brown"}, {name: "Antoine Aerts"},
             {name: "Alberto Otero-de-la-Roza"}, {name: "Gino A. DiLabio"}]
@@ -89,7 +85,7 @@
   year: 2022
   accent: green
   thumb: mol_adipic.svg
-  fit: cover        # 方图裁满宽框，分子放大 1.5x
+  fit: cover        # JCED 无开放版本，仍用 xyzrender 画的己二酸
   authors: [{name: "Yangyi Huang"}, {name: "Lin Zhang"}, {name: "Mengqi Yan"},
             {name: "Qinan Huang", me: true}, {name: "Yuning Zhang"}, {name: "Yanqun Ren"},
             {name: "Weiping Luo"}]
