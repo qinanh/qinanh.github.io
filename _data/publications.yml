@@ -27,7 +27,8 @@
   detail: "146, 14927–14934"
   year: 2024
   accent: rust
-  thumb: fig_jacs.png
+  thumb: fig_jacs.png       # Fig.2 自由能剖面（ACS 矢量图转的 PNG）
+                            # 备选 fig_jacs_xray.png = Scheme 5 里的 X 射线结构，小尺寸更清楚
   authors: [{name: "Matteo Borgini"}, {name: "Qi-Nan Huang", me: true}, {name: "Pan-Pan Chen"},
             {name: "Steven J. Geib"}, {name: "K. N. Houk"}, {name: "Peter Wipf"}]
   links: [{label: paper, url: "https://doi.org/10.1021/jacs.4c04081"}]
