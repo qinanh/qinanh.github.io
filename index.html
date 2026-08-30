@@ -105,14 +105,17 @@ layout: default
   <div class="pubs{% if nthumb == 0 %} nothumb{% endif %}">
     {%- for p in site.data.publications %}
     <article class="pub" data-accent="{{ p.accent | default: 'slate' }}">
-      <div class="thumb">
-        {%- if p.thumb %}<img src="{{ '/assets/img/' | append: p.thumb | relative_url }}" alt="">
-        {%- else %}<img class="empty" src="{{ '/assets/icons/mini_orbital.svg' | relative_url }}" alt="">{% endif %}
+      <div class="lead">
+        <div class="jbadge">{{ p.journal }}{% if p.year %} <span class="yr">{{ p.year }}</span>{% endif %}</div>
+        <div class="thumb">
+          {%- if p.thumb %}<img class="{{ p.fit }}" src="{{ '/assets/img/' | append: p.thumb | relative_url }}" alt="">
+          {%- else %}<img class="empty" src="{{ '/assets/icons/mini_orbital.svg' | relative_url }}" alt="">{% endif %}
+        </div>
       </div>
       <div>
         {%- if p.placeholder %}<span class="flag">PLACEHOLDER — 编辑 _data/publications.yml</span><br>{% endif %}
-        {%- if p.venue %}<span class="venue">{{ p.venue }}{% if p.year %} · {{ p.year }}{% endif %}</span>{% endif %}
         <h3>{%- if p.links and p.links.first %}<a href="{{ p.links.first.url }}">{{ p.title }}</a>{% else %}{{ p.title }}{% endif %}</h3>
+        {%- if p.detail %}<div class="detail">{{ p.detail }}</div>{% endif %}
         <div class="authors">
           {%- for au in p.authors -%}
             {%- if au.me %}<span class="me">{{ au.name }}</span>{% elsif au.url %}<a href="{{ au.url }}">{{ au.name }}</a>{% else %}{{ au.name }}{% endif -%}

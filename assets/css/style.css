@@ -310,3 +310,47 @@ main{position:relative;z-index:1}
 /* 一张缩略图都没配时，整列收掉，别留四个空框 */
 .pubs.nothumb .pub{grid-template-columns:1fr}
 .pubs.nothumb .thumb{display:none}
+
+/* ── 期刊徽章 + 缩略图 ───────────────────────────────── */
+.pub{grid-template-columns:142px 1fr}
+@media(max-width:680px){.pub{grid-template-columns:1fr}}
+.lead{display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+
+.jbadge{
+  display:inline-block;max-width:100%;
+  font-family:var(--round);font-weight:600;font-size:12.5px;line-height:1.2;
+  letter-spacing:.01em;
+  padding:5px 11px;border:2.2px solid var(--ink);border-radius:9px;
+  background:var(--c-line);color:var(--ink);
+  box-shadow:2px 3px 0 rgba(43,49,56,.16);
+  transform:rotate(-1.6deg);transform-origin:left center;
+}
+.pub:nth-child(2n) .jbadge{transform:rotate(1.3deg)}
+.pub:nth-child(3n) .jbadge{transform:rotate(-.7deg)}
+.jbadge .yr{font-family:var(--mono);font-size:10.5px;opacity:.72;margin-left:2px}
+
+.pub .thumb{width:142px;height:142px;transform:rotate(-1.2deg)}
+.pub:nth-child(2n) .thumb{transform:rotate(1.4deg)}
+.pub:nth-child(3n) .thumb{transform:rotate(-.5deg)}
+
+.pub .detail{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);
+  letter-spacing:.02em;margin:0 0 6px}
+.pub .venue{display:none}   /* 旧的灰标签退休 */
+
+/* 原文插图用 contain，白底留边，避免被裁得看不懂 */
+.pub .thumb img.contain{object-fit:contain;background:#fff;padding:5px}
+
+/* ══ 宽缩略图版式 ═══════════════════════════════════════
+   246×164 (3:2)。论文插图在这个尺寸才读得出来；分子结构
+   是方图，用 contain 居中，两侧留 accent 底色。 */
+:root{--max: 920px}
+.pub{grid-template-columns:246px 1fr;gap:26px}
+.pub .thumb{width:246px;height:164px;border-radius:14px}
+@media(max-width:680px){
+  .pub{grid-template-columns:1fr}
+  .pub .thumb{width:100%;max-width:300px;height:auto;aspect-ratio:3/2}
+}
+.pub .thumb img{object-fit:contain;padding:6px}
+.pub .thumb img.empty{width:52px;height:52px;padding:0}
+.jbadge{font-size:12px;padding:4px 10px}
+.pub .thumb img.cover{object-fit:cover;padding:0}
