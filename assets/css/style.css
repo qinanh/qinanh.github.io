@@ -125,12 +125,12 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 
 /* ─────────────────────── 章节标题 ─────────────────────── */
 .sec{margin:62px 0 22px;position:relative}
-.sec h2{
+.sec h2,.sec h1{
   font-family:var(--hand);font-weight:700;font-size:31px;line-height:1;
   margin:0;display:inline-block;color:var(--ink);
   transform:rotate(-.7deg);transform-origin:left center;position:relative;
 }
-.sec h2::after{                       /* 手绘波浪下划线 */
+.sec h2::after,.sec h1::after{                       /* 手绘波浪下划线 */
   content:"";position:absolute;left:-3px;right:-9px;bottom:-11px;height:9px;
   background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'><path d='M2 6 C 28 2, 55 8, 82 4.5 S 138 7.5, 165 3.6 S 190 6, 198 4' stroke='%232e5c8a' stroke-width='2.1' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
 }
@@ -613,7 +613,7 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   box-shadow:7px 8px 0 rgba(43,49,56,.15);
   transform:rotate(-1.4deg);transform-origin:center;
 }
-.bc-name{font-family:var(--round);font-weight:600;font-size:29px;line-height:1.1;color:var(--ink)}
+.bc-name{font-family:var(--round);font-weight:600;font-size:29px;line-height:1.1;color:var(--ink);margin:0}
 .bc-name-zh{font-family:var(--cjk);font-weight:600;font-size:20px;line-height:1.2;
   color:var(--ink-soft);margin-left:10px;letter-spacing:.16em;vertical-align:2px}
 .bc-role{font-family:var(--hand);font-size:15.5px;line-height:1.35;color:var(--purple-text);margin-top:9px}
