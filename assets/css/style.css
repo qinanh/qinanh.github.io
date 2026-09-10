@@ -199,6 +199,16 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 .rcard:nth-child(2){transform:rotate(.45deg)}
 .rcard:nth-child(3){transform:rotate(-.35deg)}
 .rcard:hover{box-shadow:0 7px 0 var(--c-line)}
+/* 光标一移上去就先把边框压黑，等于「我马上要开」的预告；
+   JS 那边 110ms 后真的展开，中间这段不至于毫无反应。
+   两个前置条件缺一不可：
+   · `hover:hover` + `pointer:fine` —— 触屏的 :hover 会在点完之后粘住不散；
+   · `.ptr` —— reveal.js 确认鼠标真的动过之后才挂上的类。Firefox 在指针
+     不在窗口里时会拿窗口正中当鼠标位置补发 hover，不拦的话载入瞬间
+     就有一张卡自己亮起来，跟下面展开的那张还对不上。 */
+@media (hover:hover) and (pointer:fine){
+  .ptr .rcard:hover{border-color:var(--ink);box-shadow:0 7px 0 var(--c-line)}
+}
 .rcard:focus-visible{outline:3px dashed var(--ink);outline-offset:3px}
 .rcard[aria-selected=true]{
   border-color:var(--ink);
@@ -684,6 +694,17 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:70px 24px 96px;
 }
+/* 内容纸必须排在封面之上，否则封面会吃光整页的鼠标事件。
+   sticky 的 .opening 是一整屏的盒子，滚下去之后 .opening-in 已经
+   opacity:0，可「透明」不等于「穿透」—— 盒子还在视口里，仍然参与
+   命中测试，于是论文链接、左栏菜单、三张配图卡全都点不动，hover
+   也收不到。给它一个 z-index 就只会更糟：它在 1，main 是 auto，
+   谁高谁在上面。把 main 抬到 2，规则就变成「谁盖住谁接事件」：
+   封面还在画面里时它照常可点，内容纸推上来盖住哪一块，哪一块就
+   归内容纸。--e 的淡出只是视觉，不参与这件事。
+   ⚠️ 手机端（≤820px）的 .opening 是 position:relative，滚过去就跟着
+   走，本来就不压在上面；这条对那边没有影响。 */
+main{position:relative;z-index:2}
 .opening::before{                 /* 电池后面一层很淡的光晕 */
   content:"";position:absolute;left:50%;top:50%;translate:-50% -50%;
   width:min(900px,94vw);height:min(640px,82vh);pointer-events:none;z-index:-1;

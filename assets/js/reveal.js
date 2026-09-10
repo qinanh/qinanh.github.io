@@ -187,6 +187,56 @@
     });
   }
 
+  /* 悬停之前先确认「鼠标真的动过」。
+     Firefox 在指针不落在窗口里的时候，会把「上次已知位置」当成窗口正中；
+     页面一载入布局变化，它就朝那个坐标补发一串 mouseover / mouseenter。
+     结果是：#research 这类深链接刚把第一篇打开，110ms 后就被这串假 hover
+     改成了正中那张 —— 用户什么都没碰，卡片自己跳了。
+     真 hover 一定伴随 mousemove，所以拿「出现过两个不同坐标」当闸门；
+     没过闸门之前 hover 整条路都不生效，CSS 的高亮也一起关掉，免得出现
+     「边框是 hover 的、面板却是另一张」的错位观感。JS 关掉时没有 .ptr，
+     退化成只有阴影的旧样式。 */
+  var pointerReal = false, mX = null, mY = null;
+  window.addEventListener('mousemove', function (e) {
+    if (!pointerReal && (e.clientX !== mX || e.clientY !== mY)) {
+      pointerReal = true;
+      document.documentElement.classList.add('ptr');
+    }
+    mX = e.clientX; mY = e.clientY;
+  }, { passive: true });
+
+  /* 光标移上去就展开那一张 —— 点之外的第二条路。
+     只给「有真实指针」的设备绑（hover:hover + pointer:fine）：
+     触屏上 mouseenter 会在手指落下时先一步触发，点哪儿都像已经开过，
+     反而和点按打架，所以触屏继续只认点击。
+     一排三张卡，鼠标横向扫过会连开三张，所以压一个短延迟：
+     扫过去不触发，停在哪张才开哪张。延迟比动画(260ms)短，
+     手感是「跟手」而不是「慢半拍」。 */
+  var finePointer = window.matchMedia &&
+                    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    var hoverTimer = null;
+    var cancelHover = function () {
+      if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
+    };
+    for (var q = 0; q < tabs.length; q++) {
+      tabs[q].addEventListener('mouseenter', function () {
+        var card = this;
+        cancelHover();
+        if (!pointerReal) return;                      /* 假 hover，见上 */
+        if (card.getAttribute('aria-selected') === 'true') return;
+        hoverTimer = setTimeout(function () {
+          hoverTimer = null;
+          pick(card.getAttribute('data-post'));
+        }, 110);
+      });
+      /* 扫过去就撤销：从 A 划到 C 的中途掠过的 B 不该被点开 */
+      tabs[q].addEventListener('mouseleave', cancelHover);
+      /* 真有按下动作时，立刻生效，不等那 110ms */
+      tabs[q].addEventListener('mousedown', cancelHover);
+    }
+  }
+
   /* 深链接：URL 带 #<post-id> 就直接展开那一张。
      ⚠️ 这里必须比对 data-post，不能用 getElementById 判断存不存在 ——
      @ 的 section id 就叫 about / research / publications / code，

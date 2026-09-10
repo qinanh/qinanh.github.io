@@ -122,9 +122,47 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 - **`.opening-in` 上不要放 `translate` / `scale`**。它有 sticky 祖先，Firefox 会把
   合成层钉住，滚上去之后封面会盖在正文上。现在只用 `opacity:calc(1 - var(--e,0))`
 
+- **`.opening` 是 sticky 的整屏盒子，`opacity:0` 之后仍然参与命中测试**。「透明」
+  不等于「穿透」—— 滚下去之后它还在视口里，会盖住整页，于是论文链接、左栏菜单、
+  三张配图卡**全部点不动，hover 也收不到**（手机端 `≤820px` 时它是
+  `position:relative`，跟着文档走，没有这个问题，所以只在桌面上炸）。
+  所以 `main` 必须保持 **`position:relative; z-index:2`**：`.opening` 是 `1`，
+  两者是 `<body>` 下的兄弟、同一个层叠上下文，谁高谁接事件。封面还在画面里时
+  它照常可点，内容纸推上来盖住哪块，哪块就归内容纸。
+
 `.reveal` 的 IntersectionObserver 用 `rootMargin:'0px 0px 40px 0px'`。
 **别改回负值** —— 贴着视口底部的元素会被预先下移 26px，负 margin 会让它们永远
 进不了判定区。
+
+### 配图卡：点开 + 悬停展开
+
+「what I work on」那三张卡（`.rcard[data-post]`）有两条展开路径，`pick(id)` 是唯一的
+切换入口：
+
+- **点击**：任何时候都有效，触屏和键盘（`←` `→` `Enter`，卡片是 `role=tab`）都走这条。
+- **悬停**：只在 `matchMedia('(hover:hover) and (pointer:fine)')` 为真的设备上绑
+  `mouseenter`。**不能给触屏绑** —— 手指落下时 `mouseenter` 会先于 `click` 触发，
+  点哪儿都像已经开过，反而跟点按打架。触屏继续只认点击。
+  移动鼠标横向扫过一排三张会连开三张，所以压了 **110ms** 延迟：掠过去不触发，
+  停在哪张才开哪张；`mouseleave` / `mousedown` 撤销。110ms 比 chevron 的 260ms
+  动画短，手感是「跟手」不是「慢半拍」。
+- CSS 那边 `@media (hover:hover) and (pointer:fine)` 里先用 `.rcard:hover` 把边框
+  压黑，等于「马上要开」的预告，填掉那 110ms 的空窗。同样只给真实指针的设备，
+  免得触屏的 `:hover` 点完粘住不散。
+- **`.ptr` 这道闸门别拆**（挂在 `<html>` 上，JS 确认鼠标真的动过之后才加）。
+  Firefox 在指针不在窗口里时，会把「上次已知位置」当成窗口正中，页面载入时
+  布局一变就朝那个坐标补发一串 `mouseover` / `mouseenter`。实测抓到的证据：
+  `0.24 EVT mouseenter tab-2 client=(960,565)` —— 960×565 正好是窗口正中，
+  而那会儿真鼠标在屏幕角落。110ms 后卡片自己跳到第二张，`#research` 的深链接
+  就这么被一次用户根本没做的 hover 顶掉了。真 hover 必有 `mousemove`，所以拿
+  「出现过两个不同坐标」当闸门；没过闸门之前 JS 不理会 `mouseenter`，CSS 的
+  高亮也靠 `.ptr` 一起关掉 —— 否则会出现「边框亮的是 B、面板开的是 A」。
+  JS 关掉时没有 `.ptr`，退化成只有阴影的旧样式。
+
+⚠️ 深链接那段必须用 `data-post` 比对，**不能**用 `getElementById(hash)` 判断 ——
+`about` / `research` / `publications` / `code` 正好都是 section id，刷新或分享出来的
+URL 就带着它们，`pick('research')` 谁都不匹配、三篇全关，面板整块空白。现在
+命中不了就回落到第一张。
 
 ## 宽度适配
 
