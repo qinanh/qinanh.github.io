@@ -46,7 +46,8 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 
 加渠道只改 `_config.yml` 的 `author:` —— 每个键对应一个 `{%- if a.xxx %}`，
 **注释掉就不渲染**。`email` / `scholar` / `github` / `orcid` / `twitter`(→x.com) /
-`linkedin` / `cv` 都支持，`scholar` 和 `orcid` 目前还是注释状态。
+`linkedin` / `cv` 都支持，七个渠道现在都填齐了。填了的一律同时进左栏 chip、
+顶栏圆钮和 `_layouts/default.html` 里 JSON-LD 的 `sameAs`。
 
 ⚠️ 每个图标是一行 `{% assign s_xxx = '<svg…>' %}`，下面靠 `{{ s_xxx }}` 引用。
 **加图标时这两个名字必须完全一致** —— 不一致时 Liquid 不报错，只是静默输出空字符串，
@@ -107,9 +108,25 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 | `snap: true`   | 给 `<main>` 加 `.snap`，每个 section 撑满一屏、一屏一停 |
 
 封面之后是 `main` 这块「纸」往上滑盖住封面（`main` 全出血 + `background-position:0 -100vh`
-对齐底纹）。吸附只在 `@media(min-height:840px) and (min-width:821px)` 里开 ——
-**最高的那屏内容 763px，加上顶栏要 817px 的窗口才够**，窗口不够高还吸附就会把人
-卡在两屏中间。所以改任何一屏的内容后都要重新量一遍高度。
+对齐底纹）。
+
+**「每屏撑满」和「真正吸附」是两件事，门槛不一样：**
+
+| 块 | 媒体查询 | 干什么 |
+|---|---|---|
+| `.snap .col > section{min-height:calc(100svh - var(--tb))}` | `(min-width:821px) and (min-height:840px)` | 每屏至少一屏高、内容垂直居中。就算某屏内容比窗口还高，它也只是自然长高，不会裁切 |
+| `scroll-snap-type:y mandatory`（三列版式） | `(min-width:1201px) and (min-height:900px)` | 一屏一停 |
+| `scroll-snap-type:y mandatory`（两列版式） | `(max-width:1200px) and (min-width:821px) and (min-height:1080px)` | 同上 |
+
+吸附的门槛必须按**实测**来定，因为「一屏一停」配上塞不下的屏会把人卡在两屏中间。
+2026-09 重测（iframe 1600/1210/1290 宽，高 900，`--tb` 实测 62）：
+
+- **三列版式**（视口 ≥1201px）：几屏内容全部 ≤838px，所以 `900px` 高的窗口就够
+- **两列版式**（821–1200px，`.rgrid` 掉到两列、卡片折成两排）：最高那屏
+  `#research` 实测 994px，要 `1080px` 高的窗口
+
+改任何一屏的内容后都要重新量一遍这两个数（办法见「本地预览」那节的截图流程，
+量 `.col > section` 的 `getBoundingClientRect().height` 跟 `innerHeight - --tb` 比）。
 
 ### 渲染性能：这几条别动
 
@@ -192,6 +209,10 @@ URL 就带着它们，`pick('research')` 谁都不匹配、三篇全关，面板
 因为顶栏高度会变：390 宽是 89px、780 宽是 93px，而 CSS 里那个 `54px` / `74px`
 是**没 JS 时的兜底值**。写死数字的话锚点跳转会钻到顶栏底下（差 8–15px）。
 
+`@media(min-width:1180px)` 里 `.bio` 排两栏（`column-count:2`）：19px 正文一栏
+到底一行太长、整段也太高，`#about` 那一屏会被自己的正文顶出窗口。排两栏之后
+`.bio` 从 412px 掉到 266px，`#about` 整屏就塞进 838px 了。窄一点自动退回一栏。
+
 窄屏上另有两处：
 
 - `@media(max-width:820px)` —— 整块换版式（见上面「版式」那节）。顶栏目录
@@ -203,7 +224,7 @@ URL 就带着它们，`pick('research')` 谁都不匹配、三篇全关，面板
   `gap:30px` 贴左边排
 - `@media(max-width:560px)` —— 论文行从「缩略图 + 正文 + 期刊章」三栏收成两栏，
   期刊章挪到标题底下；封面、卡片内边距各收一号；顶栏社交圆钮收到 27px
-  （不然「品牌名 + 4 个圆钮」在 390 宽会顶到边）
+  （不然「品牌名 + 6 个圆钮」在 390 宽会顶到边）
 
 自查办法：`document.documentElement.scrollWidth === clientWidth` 且没有元素
 `getBoundingClientRect().right > innerWidth`（`overflow:auto` 里的除外，比如那条
@@ -302,6 +323,24 @@ Pages 那边一直卡在 "certificate provisioning"。
   所以面板看起来是从那张卡里抽出来的。卡片右侧的 `chevron` 同步转 180°
 - `.post p` 限宽 `86ch`：面板占满整栏是为了跟三张卡对齐，但正文一行的字
   不能跟着拉那么长
+
+### 三张配图（`_includes/fig_*.html`）
+
+`fig_rl` / `fig_mixture` / `fig_generative` 是手写 SVG，共用 `viewBox="0 0 360 200"`
+和同一套设计规则，改一张要顺手看另外两张：
+
+- **留白网格**：左右各留 22，上 26、下 14。盒子一律 `y=34/38` 起、同高，
+  小标题（`ftiny`）挂在盒子上沿**外侧**，不塞进盒子里
+- **箭头只走留白**：杆 `H` 段 + 一个 5.5×5 的 V 形箭头，长度一致，两头各留 ~5px；
+  **任何线都不许插进图形或压住文字**。`reward → update` 那种必须横穿的标签，
+  底下垫一块 `.fhalo`（跟底色同色的圆角矩形）把线压掉
+- **三档标签**：`ftiny`（等宽 10.5px，容器名）/ `flab`（圆体 13px，主标签）/
+  `fnote`（手写体 13px，次要说明）。同一层含义在三个图里用同一档
+- 颜色全部继承卡片的 `data-accent`：`--c-line` 给实心小圆（`.fatom`）、
+  `--c-fill` 给 chip 底色。加新元素前先想清楚用哪一档，别硬写颜色
+- `.fmark` 是墨色圆上的「+」（阳离子），用 `--paper-2` 白描边才看得见
+- `.fig` 上有一条 `max-height:198px`：图是定比矢量，两列版式里卡片变宽、
+  图会跟着长高把 `#research` 顶出窗口，封顶之后 SVG 自己等比缩进中间
 
 ## 硬规矩
 

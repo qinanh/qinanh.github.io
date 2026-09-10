@@ -1,48 +1,50 @@
-{%- comment -%} 配图一：policy 提候选 → 仿真打分 → reward 回流更新 policy。
+{%- comment -%} 配图一：policy 提候选 → 物理仿真打分 → reward 回流更新 policy，
+   上位三个站点组成一个闭环；下位虚线框是每一步的推理链。
    线稿风格，颜色跟着卡片的 data-accent 走（--c-line / --c-fill）。
-   viewBox 留 20 单位边距，图在框里不顶边，卡上看着松快些。 {%- endcomment -%}
+   网格：左右各留 22，上 26 下 14；三个盒子同高、上沿对齐，箭头长度一致，
+   全部走在留白里，所以没有哪条线会插进图形或压住文字。 {%- endcomment -%}
 <svg class="fig" viewBox="0 0 360 200" role="img"
-     aria-label="A policy proposes candidate molecules, a simulation scores them, and the reward flows back to update the policy.">
+     aria-label="A policy proposes candidate molecules, a physics simulation scores them, and the reward flows back to update the policy. Below, the reasoning chain runs reason, propose, verify.">
   <title>Post-training loop: reason, propose, verify against physics</title>
 
-  <rect class="fbox" x="20" y="16" width="86" height="58" rx="14"/>
-  <text class="flab" x="63" y="42" text-anchor="middle">policy</text>
-  <text class="fnote" x="63" y="61" text-anchor="middle">think</text>
+  <!-- 上排：policy → 候选分子 → 仿真 -->
+  <rect class="fbox" x="22" y="34" width="88" height="58" rx="15"/>
+  <text class="flab" x="66" y="60" text-anchor="middle">policy</text>
+  <text class="fnote" x="66" y="79" text-anchor="middle">think</text>
 
-  <path class="fs" d="M110 45 H136"/>
-  <path class="fs" d="M131 40 l5.5 5 -5.5 5"/>
+  <path class="fs" d="M115 63 H135"/>
+  <path class="fs" d="M129.5 58 l5.5 5 -5.5 5"/>
 
-  <!-- 候选：环 / 链 / 原子，三个并排 -->
-  <path class="fs" d="M148 31 l13 7.5 v15 l-13 7.5 -13 -7.5 v-15 z"/>
-  <path class="fs" d="M174 45 l7 -7 7 7 7 -7"/>
-  <circle class="fatom" cx="223" cy="45" r="9"/>
-  <path class="fs" d="M218 45 h10"/>
+  <text class="ftiny" x="180" y="26" text-anchor="middle">proposals</text>
+  <path class="fs" d="M148.5 52.5 l8.5 5 v11 l-8.5 5 -8.5 -5 v-11 z"/>
+  <path class="fs" d="M170.5 66 l6.5 -6 6.5 6 6.5 -6"/>
+  <circle class="fatom" cx="213" cy="63" r="9"/>
+  <path class="fs" d="M208 63 h10"/>
 
-  <path class="fok" d="M141 66 l5 6 9 -12"/>
-  <path class="fno" d="M216 63 l9 9 M225 63 l-9 9"/>
+  <path class="fs" d="M225 63 H245"/>
+  <path class="fs" d="M239.5 58 l5.5 5 -5.5 5"/>
 
-  <path class="fs" d="M242 45 H268"/>
-  <path class="fs" d="M263 40 l5.5 5 -5.5 5"/>
+  <rect class="fbox" x="250" y="34" width="88" height="58" rx="15"/>
+  <path class="fs" d="M289 43 h10 v10 l8 15 h-26 l8 -15 z"/>
+  <path class="fs-thin" d="M286 61 h16"/>
+  <text class="fnote" x="294" y="84" text-anchor="middle">physics</text>
 
-  <rect class="fbox" x="274" y="16" width="66" height="58" rx="14"/>
-  <path class="fs" d="M302 27 h8 v9 l7 14 h-22 l7 -14 z"/>
-  <path class="fs-thin" d="M296 43 h20"/>
+  <!-- reward 回流：从仿真绕到 policy 底下，标签盖一块底色压住线 -->
+  <path class="farr" d="M294 92 V113 H66 V98"/>
+  <path class="fs" d="M61 104 l5 -6 5 6"/>
+  <rect class="fhalo" x="124" y="104" width="112" height="19" rx="9.5"/>
+  <text class="fnote" x="180" y="118" text-anchor="middle">reward &#8594; update</text>
 
-  <!-- reward 回流：从仿真绕回 policy，走下面那条横线 -->
-  <path class="farr" d="M307 76 V102 H63 V80"/>
-  <path class="fs" d="M58 86 l5 -6 5 6"/>
-  <rect class="fhalo" x="126" y="93" width="118" height="19" rx="9.5"/>
-  <text class="fnote" x="185" y="107" text-anchor="middle">reward &#8594; update</text>
-
-  <rect class="fdash" x="20" y="120" width="320" height="66" rx="16"/>
-  <rect class="fchip" x="38" y="137" width="80" height="32" rx="10"/>
-  <text class="flab" x="78" y="157" text-anchor="middle" font-size="12">reason</text>
-  <path class="fs" d="M124 153 H146"/>
-  <path class="fs" d="M142 149 l4.5 4 -4.5 4"/>
-  <rect class="fchip" x="152" y="137" width="80" height="32" rx="10"/>
-  <text class="flab" x="192" y="157" text-anchor="middle" font-size="12">propose</text>
-  <path class="fs" d="M238 153 H260"/>
-  <path class="fs" d="M256 149 l4.5 4 -4.5 4"/>
-  <rect class="fchip" x="266" y="137" width="60" height="32" rx="10"/>
-  <text class="flab" x="296" y="157" text-anchor="middle" font-size="12">verify</text>
+  <!-- 下排：一步推理链 -->
+  <rect class="fdash" x="22" y="134" width="316" height="52" rx="16"/>
+  <rect class="fchip" x="36" y="144" width="72" height="32" rx="10"/>
+  <text class="flab" x="72" y="164.5" text-anchor="middle" font-size="12">reason</text>
+  <path class="fs" d="M114 160 H138"/>
+  <path class="fs" d="M132.5 155 l5.5 5 -5.5 5"/>
+  <rect class="fchip" x="144" y="144" width="72" height="32" rx="10"/>
+  <text class="flab" x="180" y="164.5" text-anchor="middle" font-size="12">propose</text>
+  <path class="fs" d="M222 160 H246"/>
+  <path class="fs" d="M240.5 155 l5.5 5 -5.5 5"/>
+  <rect class="fchip" x="252" y="144" width="72" height="32" rx="10"/>
+  <text class="flab" x="288" y="164.5" text-anchor="middle" font-size="12">verify</text>
 </svg>

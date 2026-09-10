@@ -91,7 +91,7 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 .role .at-link,.bc-role .at-link{color:var(--purple-text);border-bottom:2px solid var(--purple);
   padding-bottom:1px;white-space:nowrap}   /* 组名整个走，不许在中间断 */
 .role .at-link:hover,.bc-role .at-link:hover{color:var(--ink);border-bottom-color:var(--ink)}
-.bio p{margin:0 0 12px;max-width:60ch;color:var(--ink-soft)}
+.bio p{margin:0 0 12px;max-width:58ch;color:var(--ink-soft);font-size:19px;line-height:1.62}
 .bio strong{color:var(--ink);font-weight:700}
 
 /* 头像：卡通贴纸边框 */
@@ -240,17 +240,21 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 .rsum{font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
 
 /* 卡里那张手绘示意图 —— 墨线打底，填充跟着 accent 走 */
-.fig{display:block;width:100%;height:auto}
+.fig{display:block;width:100%;height:auto;max-height:198px}
+/* 图是 360x200 的定比矢量。两栏排版时卡片会变宽，图跟着长高，
+   research 那一屏就被顶出去了 —— 给个上限，SVG 自己等比缩进中间。 */
 .fig .fs{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .fig .fs-thin{fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round}
 .fig .farr{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .fig .fcurve{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round}
+.fig .fdots{fill:none;stroke:var(--ink-faint);stroke-width:1.8;stroke-dasharray:2 5;stroke-linecap:round}
 .fig .fbox{fill:var(--paper-2);stroke:var(--ink);stroke-width:2.4}
 .fig .fchip{fill:var(--c-fill,var(--paper-2));stroke:var(--ink);stroke-width:2}
 .fig .fdash{fill:none;stroke:var(--ink-soft);stroke-width:1.8;stroke-dasharray:5 5}
 .fig .fhalo{fill:var(--paper-2)}
 .fig .fatom{fill:var(--c-line,var(--slate-line));stroke:var(--ink);stroke-width:2}
 .fig .fcore{fill:var(--ink)}
+.fig .fmark{fill:none;stroke:var(--paper-2);stroke-width:2.1;stroke-linecap:round}
 .fig .fok{fill:none;stroke:var(--green-text);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .fig .fno{fill:none;stroke:var(--ink-faint);stroke-width:2;stroke-linecap:round}
 .fig .flab{font-family:var(--round);font-size:13px;font-weight:500;fill:var(--ink)}
@@ -397,7 +401,7 @@ footer .doodle{width:52px;opacity:.55}
 }
 
 /* ─────────────────── 作品带（真实渲染图） ─────────────────── */
-.strip-wrap{margin:44px 0 8px;overflow-x:auto;overflow-y:hidden;padding:6px 2px 4px;
+.strip-wrap{margin:32px 0 8px;overflow-x:auto;overflow-y:hidden;padding:6px 2px 4px;
   scrollbar-width:thin;scrollbar-color:var(--rule) transparent}
 .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;min-width:520px}
 @media(max-width:680px){.strip{grid-template-columns:repeat(4,140px)}}
@@ -507,7 +511,14 @@ html{color-scheme:light}
 .side .chip{font-size:12.5px;padding:4px 10px;gap:5px}
 .side .chip svg{width:12px;height:12px}
 
-.intro .bio p:first-child{font-size:18.5px;color:var(--ink)}
+.intro .bio p:first-child{font-size:20px;color:var(--ink)}
+
+/* 正文栏够宽之后排两栏：一行不会长到读不下去，about 那一屏也矮一截，
+   才塞得进「一屏一停」的窗口。窄一点就退回一栏。 */
+@media(min-width:1180px){
+  .bio{column-count:2;column-gap:46px}
+  .bio p{max-width:none;break-inside:avoid}
+}
 
 /* ── 菜单 ───────────────────────────────────────────── */
 .menu{
@@ -562,13 +573,21 @@ html{color-scheme:light}
    滚动时一屏一停，不会半屏卡着两个 section。scroll-snap-stop
    让一次快滑也只走一屏。只给 front matter 写了 snap: true 的
    页面开 —— 论文页那种长列表不适合整屏吸附。 */
-/* 一屏一停的前提是每屏都塞得下：最高的那屏内容 777px，加上顶栏
-   要 831px 的窗口才够。窗口不够高就整个关掉吸附 —— 吸附配上塞不
-   下的屏，会把人卡在中间两屏都看不全。窄屏同理。 */
+/* 一屏一停的前提是每屏都塞得下，而「塞得下」按排版分两档量：
+     · ≥1201px：卡片三列，几屏内容都不超过 838px，900px 高的窗口够用；
+     · 821–1200px：卡片只剩两列，折成两排，最高那屏（research）
+       实测 994px，要 1080px 高的窗口才放得下。
+   窗口不够高就整个关掉吸附 —— 吸附配上塞不下的屏，会把人卡在中间
+   两屏都看不全。窄屏同理。 */
 html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底下 */
 
-@media(min-height:840px) and (min-width:821px){
+@media(min-width:1201px) and (min-height:900px){
   html:has(main.snap){scroll-snap-type:y mandatory}
+}
+@media(min-width:821px) and (max-width:1200px) and (min-height:1080px){
+  html:has(main.snap){scroll-snap-type:y mandatory}
+}
+@media(min-height:840px) and (min-width:821px){
   html:has(main.snap) .opening{scroll-snap-align:start}
   .snap .col > section{
     min-height:calc(100svh - var(--tb));
@@ -819,12 +838,20 @@ main{position:relative;z-index:2}
   main{border-radius:20px 20px 0 0}
 }
 @media(max-width:620px){ .brand-tag{display:none} }
-/* 窄屏：品牌名 + 四个圆钮要挤在一行里，圆钮收一号 */
+/* 窄屏：品牌名 + 一排圆钮要挤在一行里，两边各收一号。
+   390 宽实测：圆钮 27px、间距 5px、内边距 18px 时，第六个圆钮会顶出 7px。 */
 @media(max-width:560px){
-  .socials{gap:5px}
-  .sicon{width:27px;height:27px}
-  .sicon svg{width:13px;height:13px}
+  .socials{gap:4px}
+  .sicon{width:25px;height:25px}
+  .sicon svg{width:12.5px;height:12.5px}
+  .brand{gap:8px}
+  .brand-mark{width:22px;height:22px}
+  .brand-name{font-size:19px}
+  .brand-zh{font-size:12px;margin-left:7px}
+  .topbar-in{gap:10px;padding-left:12px;padding-right:12px}
 }
+/* 再窄一档：中文名在上面的身份条里已经有了，顶栏先让位给圆钮 */
+@media(max-width:380px){ .brand-zh{display:none} }
 
 /* ── 手机（≤560px）─────────────────────────────────────
    论文行原本是「缩略图 + 正文 + 期刊章」三栏，窄屏上中间只剩 180px，

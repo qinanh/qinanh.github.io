@@ -1,39 +1,45 @@
-{%- comment -%} 配图三：左边写下想要的溶剂化结构 → 生成模型 → 右边吐出候选配方；
-   底下那条是统计力学那层的自由能景观，井底那个点就是采样到的地方。 {%- endcomment -%}
+{%- comment -%} 配图三：左边写下想要的溶剂化壳层 → 生成模型 → 右边吐出候选配方。
+   底下那条是统计力学那层的自由能景观，井底那颗珠子就是采样到的位置；
+   虚线把珠子接回模型，表示「模型是从这张景观上采样的」。
+   四个溶剂分子落在壳层圈的外侧（相切），所以不会跟虚线圈的虚线段打架。 {%- endcomment -%}
 <svg class="fig" viewBox="0 0 360 200" role="img"
-     aria-label="A target solvation shell is described on the left, a generative model in the middle, candidate formulations on the right, and a free-energy landscape along the bottom.">
+     aria-label="A target solvation shell is described on the left, a generative model in the middle samples a free-energy landscape below, and candidate formulations appear on the right.">
   <title>Designing a solvation structure from a statistical-mechanics model</title>
 
-  <text class="fnote" x="62" y="24" text-anchor="middle">target shell</text>
-  <circle class="fdash" cx="62" cy="76" r="32"/>
-  <path class="fs" d="M62 35 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M94 67 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M62 99 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M30 67 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <circle class="fcore" cx="62" cy="76" r="8"/>
+  <!-- 左：目标溶剂化壳层，中心是阳离子 -->
+  <text class="ftiny" x="74" y="26" text-anchor="middle">target shell</text>
+  <circle class="fdash" cx="74" cy="90" r="26"/>
+  <path class="fs" d="M74 49 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M108 83 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M74 117 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M40 83 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <circle class="fcore" cx="74" cy="90" r="10"/>
+  <path class="fmark" d="M74 85.5 v9 M69.5 90 h9"/>
 
-  <path class="fs" d="M102 76 H134"/>
-  <path class="fs" d="M129 71 l5.5 5 -5.5 5"/>
-  <text class="ftiny" x="118" y="66" text-anchor="middle">design</text>
+  <path class="fs" d="M118 90 H144"/>
+  <path class="fs" d="M138.5 85 l5.5 5 -5.5 5"/>
 
-  <rect class="fbox" x="142" y="46" width="92" height="60" rx="15"/>
-  <text class="fnote" x="188" y="70" text-anchor="middle">generative</text>
-  <text class="flab" x="188" y="91" text-anchor="middle">model</text>
+  <!-- 中：生成模型 -->
+  <rect class="fbox" x="150" y="60" width="96" height="60" rx="16"/>
+  <text class="fnote" x="198" y="84" text-anchor="middle">generative</text>
+  <text class="flab" x="198" y="105" text-anchor="middle">model</text>
 
-  <path class="fs" d="M240 76 H262"/>
-  <path class="fs" d="M257 71 l5.5 5 -5.5 5"/>
+  <path class="fs" d="M250 90 H268"/>
+  <path class="fs" d="M262.5 85 l5.5 5 -5.5 5"/>
 
-  <rect class="fbox" x="268" y="26" width="72" height="118" rx="15"/>
-  <text class="ftiny" x="304" y="46" text-anchor="middle">candidates</text>
-  <circle class="fatom" cx="286" cy="74" r="7"/>
-  <path class="fs" d="M300 74 H324"/>
-  <path class="fok" d="M328 71 l4 5 8 -11"/>
-  <circle class="fatom" cx="286" cy="104" r="7"/>
-  <path class="fs" d="M300 104 H324"/>
-  <circle class="fatom" cx="286" cy="134" r="7"/>
-  <path class="fs" d="M300 134 H324"/>
+  <!-- 右：候选配方，第一条通过筛选 -->
+  <text class="ftiny" x="306" y="26" text-anchor="middle">candidates</text>
+  <rect class="fbox" x="274" y="32" width="64" height="116" rx="16"/>
+  <circle class="fatom" cx="288" cy="62" r="7"/>
+  <path class="fok" d="M299 62 l4.5 5.5 9 -12.5"/>
+  <circle class="fatom" cx="288" cy="90" r="7"/>
+  <path class="fs" d="M299 90 H322"/>
+  <circle class="fatom" cx="288" cy="118" r="7"/>
+  <path class="fs" d="M299 118 H322"/>
 
-  <text class="fnote" x="16" y="172" text-anchor="start">free energy</text>
-  <path class="fcurve" d="M84 164 C 104 164, 110 188, 136 188 C 164 188, 170 164, 200 164 C 228 164, 234 190, 268 190 C 284 190, 294 183, 304 175"/>
-  <circle class="fatom" cx="136" cy="182" r="7"/>
+  <!-- 底下那层：自由能景观 + 采样到的那颗珠子 -->
+  <text class="fnote" x="22" y="176" text-anchor="start">free energy</text>
+  <path class="fcurve" d="M100 170 C 118 170, 122 186, 142 186 C 162 186, 170 154, 192 154 C 214 154, 222 186, 242 186 C 262 186, 276 172, 308 168"/>
+  <circle class="fatom" cx="142" cy="179" r="7"/>
+  <path class="fdots" d="M148 173 C 156 150, 170 136, 190 126"/>
 </svg>
