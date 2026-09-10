@@ -93,7 +93,12 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 ## 宽度适配
 
 `:root` 里 `--max` 和 `--gutter` 管全局宽度：单栏时 `--max:860px`，两栏版式
-重新定义成 `min(1360px,100%)`；内边距统一用 `var(--gutter)`（`clamp(18px,2.6vw,46px)`）。
+重新定义成 `min(1600px,100%)`；内边距统一用 `var(--gutter)`（`clamp(18px,2.4vw,42px)`）。
+左栏 `224px`、栏间距 `clamp(30px,3.2vw,54px)` —— 这三个数一起决定正文栏多宽，
+所以在 1920 屏上「what I work on」的三张卡是 ~400px，在 1280 屏上 ~310px。
+
+**注意 `--max` 只管到 1440 以上的屏**：视口不到 1440 时 `100%` 先到顶，
+这时候想加宽只能动 `--gutter` / 左栏宽度 / `gap`。
 论文列表那行是 `grid-template-columns:68px minmax(0,1fr) auto` —— `.pmain` 上的
 `min-width:0` 不能删，不然 `white-space:nowrap` 的作者行会把栅格撑破。
 
