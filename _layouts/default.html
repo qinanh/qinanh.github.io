@@ -44,6 +44,12 @@
 {%- if a.orcid    %}{{ sep }}{{ a.orcid    | prepend: 'https://orcid.org/'             | jsonify }}{% assign sep = ',' %}{% endif -%}
 {%- if a.scholar  %}{{ sep }}{{ a.scholar  | prepend: 'https://scholar.google.com/citations?user=' | jsonify }}{% assign sep = ',' %}{% endif -%}
 {%- endcapture -%}
+{%- capture alumni -%}
+{%- assign sep = '' -%}
+{%- for e in a.education -%}
+{{ sep }}{"@type":"EducationalOrganization","name":{{ e.school | jsonify }}}{% assign sep = ',' %}
+{%- endfor -%}
+{%- endcapture -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -59,6 +65,17 @@
     "name": {{ a.institution | jsonify }},
     "department": {{ a.department | jsonify }}
   },
+{%- if a.lab_url %}
+  "worksFor": {
+    "@type": "Organization",
+    "name": {{ a.group | jsonify }},
+    "url": {{ a.lab_url | jsonify }},
+    "parentOrganization": { "@type": "CollegeOrUniversity", "name": {{ a.institution | jsonify }} }
+  },
+{%- endif %}
+{%- if alumni != '' %}
+  "alumniOf": [{{ alumni }}],
+{%- endif %}
   "knowsAbout": [
     "machine learning for chemistry",
     "electrolyte design",

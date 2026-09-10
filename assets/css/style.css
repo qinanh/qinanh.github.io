@@ -87,6 +87,9 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
   margin:6px 0 16px;transform:rotate(-.5deg);transform-origin:left center;
 }
 .role .at{color:var(--ink-soft)}
+/* 组名做成链接：手写体行里的链接不能用默认蓝底线，会跳出来 */
+.role .at-link,.bc-role .at-link{color:var(--purple-text);border-bottom:2px solid var(--purple);padding-bottom:1px}
+.role .at-link:hover,.bc-role .at-link:hover{color:var(--ink);border-bottom-color:var(--ink)}
 .bio p{margin:0 0 12px;max-width:60ch;color:var(--ink-soft)}
 .bio strong{color:var(--ink);font-weight:700}
 

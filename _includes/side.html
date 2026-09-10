@@ -16,7 +16,7 @@
   {%- if a.name_zh %}<p class="name-zh">{{ a.name_zh }}</p>{% endif %}
 
   <p class="role">
-    {{ a.role }} <span class="at">@</span> {{ a.group }}<br>
+    {{ a.role }} <span class="at">@</span> {%- if a.lab_url %}<a class="at-link" href="{{ a.lab_url }}">{{ a.group }}</a>{%- else %}{{ a.group }}{% endif %}<br>
     <span class="at">{{ a.department }}</span><br>
     <span class="at">{{ a.institution }}</span>
   </p>

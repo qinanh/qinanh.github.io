@@ -14,8 +14,19 @@ author:
   name_zh:     黄祺楠                      # 中文名，显示在英文名下面
   role:        PhD student                 # ← 改成你的实际身份
   group:       Amanchukwu Lab
+  lab_url:     https://amanchukwu.uchicago.edu/
+  advisor:     Chibueze Amanchukwu
+  advisor_url: https://pme.uchicago.edu/faculty/chibueze-amanchukwu
   department:  Pritzker School of Molecular Engineering
   institution: The University of Chicago
+  # 学历会写进 about 那一段，也会生成 JSON-LD 的 alumniOf
+  education:
+    - degree: BS, Chemistry
+      school: Hunan University
+      year: "2024"
+    - degree: MS, Molecular Engineering
+      school: The University of Chicago
+      year: "2026"
   photo:       /assets/img/portrait.jpg    # ← 放一张头像进来
   email:       qinanh@uchicago.edu
   # 下面几项确认后取消注释即可显示

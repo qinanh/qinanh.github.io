@@ -9,7 +9,7 @@
       <div class="bizcard reveal">
       <div class="bc-face">
         <h1 class="bc-name">{{ a.name }}{% if a.name_zh %}<span class="bc-name-zh">{{ a.name_zh }}</span>{% endif %}</h1>
-        <div class="bc-role">{{ a.role }} <span class="at">@</span> {{ a.group }}</div>
+        <div class="bc-role">{{ a.role }} <span class="at">@</span> {%- if a.lab_url %}<a class="at-link" href="{{ a.lab_url }}">{{ a.group }}</a>{%- else %}{{ a.group }}{% endif %}</div>
         <div class="bc-inst">{{ a.department }}</div>
         <div class="bc-inst">{{ a.institution }}</div>
         <div class="bc-rule"></div>

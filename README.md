@@ -53,6 +53,14 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 身份信息（姓名、职称、组、邮箱、Scholar / ORCID / GitHub、CV）全在 `_config.yml`
 的 `author:` 下面。**注释掉的行不会显示**，所以确认一个开一个。
 
+`author:` 里几个跟"我是谁"有关的键：
+
+| 键 | 作用 |
+|---|---|
+| `lab_url` | 组主页。填了左栏的组名和首屏名片上的组名就变成链接 |
+| `advisor` / `advisor_url` | 导师姓名和主页，写在 about 第一段里 |
+| `education` | `degree` / `school` / `year` 的列表，生成 JSON-LD 的 `alumniOf`。**目前只在结构化数据里用，页面上 about 那段是手写的**，改学历记得两处一起改 |
+
 ## 还差什么
 
 - [ ] `assets/cv.pdf` —— 没有就把 `_config.yml` 里的 `cv:` 那行删掉
@@ -175,7 +183,8 @@ Pages 那边一直卡在 "certificate provisioning"。
 
 - `robots.txt`（`Allow: /` + 指向 sitemap）和 `sitemap.xml`（`jekyll-sitemap` 生成）
 - `<link rel="canonical">`、`description`、整套 `og:*` / `twitter:*`
-- head 里一段 **Person 结构化数据**（中英文名、单位、邮箱、`knowsAbout`、`sameAs`）
+- head 里一段 **Person 结构化数据**（中英文名、单位、邮箱、`knowsAbout`、`sameAs`、
+  `worksFor` 指向组主页、`alumniOf` 从 `_config.yml` 的 `education:` 生成）
 - **全站只有一个 `<h1>`**：首页封面名片的名字、news 页的 "news"。
   这两条别改成 `<div>`，也别再加第二个 `<h1>` —— 这是搜索"Qinan Huang"最直接的信号
 - `/news.html` 挂在左侧菜单第 05 项，从每一页都链得到（不加内链它就只能靠 sitemap 被发现）
