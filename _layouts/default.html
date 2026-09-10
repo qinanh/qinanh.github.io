@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- JS 可用时才隐藏待浮现元素；禁用 JS 时页面照常完整显示 -->
+<script>document.documentElement.classList.add('js')</script>
 <title>{{ page.title | default: site.title }}</title>
 <meta name="description" content="{{ site.description | strip_newlines }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -23,13 +25,33 @@
 {%- feed_meta -%}
 </head>
 <body>
-<main>
-{{ content }}
+{%- comment -%} 常驻顶栏：首页在封面阶段先藏着，开始下滑才落下来。
+   没有 JS 时（没挂 .js）默认就是可见的。 {%- endcomment -%}
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <img class="brand-mark" src="{{ '/assets/icons/flask.svg' | relative_url }}" alt="">
+      <span class="brand-name">{{ site.author.name }}{% if site.author.name_zh %}<span class="brand-zh">{{ site.author.name_zh }}</span>{% endif %}</span>
+    </a>
+    <span class="brand-tag">{{ site.tagline }}</span>
+  </div>
+  <span class="topbar-prog" aria-hidden="true"></span>
+</header>
 
-<footer>
-  <span>© {{ 'now' | date: "%Y" }} {{ site.author.name }} · built with Jekyll, drawn by hand</span>
-  <img class="doodle" src="{{ '/assets/icons/sparkle_gold.svg' | relative_url }}" alt="">
-</footer>
+{%- if page.opening %}{% include opening.html %}{% endif %}
+<main id="main"{% if page.snap %} class="snap"{% endif %}>
+<div class="layout">
+  {% include side.html %}
+  <div class="col">
+    {{ content }}
+
+    <footer>
+      <span>© {{ 'now' | date: "%Y" }} {{ site.author.name }} · built with Jekyll, drawn by hand</span>
+      <img class="doodle" src="{{ '/assets/icons/sparkle_gold.svg' | relative_url }}" alt="">
+    </footer>
+  </div>
+</div>
 </main>
+<script src="{{ '/assets/js/reveal.js' | relative_url }}" defer></script>
 </body>
 </html>

@@ -1,36 +1,80 @@
-# 三条主线。icon 取 assets/icons/ 下的文件名（不带 .svg）
+# "what I work on" 三张配图大卡。点一张卡，下面换成那张卡的 long post。
+# kicker 是卡上的小标签；short 是卡名；blurb 是卡上那一行概述；
+# title 是展开后 post 的标题；figure 选 _includes/fig_*.html 里的一张手绘图。
 # accent: gold | purple | green | blue
 
-- title: Electrolyte screening at scale
-  icon: flask
-  accent: blue
+- kicker: post-training · RL
+  short: Reasoning for molecular design
   blurb: >-
-    An end-to-end pipeline that takes candidate SMILES to measured transport
-    properties: structural filtering, xTB/DFT descriptors, automated GROMACS
-    box building, and RDF / conductivity analysis — with the throughput to
-    run hundreds of formulations rather than a handful.
-  note: "~10k atoms a box, hundreds of boxes"
-  links:
-    - { label: code, url: "https://github.com/qinanh/simulation_workflow" }
-
-- title: Generative models of Li⁺ solvation
-  icon: nn_purple
-  accent: green
-  blurb: >-
-    A conditional diffusion model that learns the full <em>distribution</em> of
-    Li⁺ first-solvation-shell structure directly from MD, routed through a
-    continuous 3D interaction-field representation — and tested on electrolyte
-    chemistries it has never seen.
-  note: "455 formulations · 227,680 Li environments"
+    RL post-training, so a model reasons about a physical process before it
+    screens the molecule.
+  figure: rl
+  accent: purple
+  title: Language models that reason about physical processes
+  note: "the grader is physics, not a label"
+  post: |
+    <p>Language models are good at talking about chemistry and bad at committing
+       to an answer that has to survive a check. Post-training is how that gap
+       gets closed: rather than asking a model to recall, we let it reason —
+       propose a route, a mechanism, a candidate — and then let simulation
+       decide whether the reasoning was any good.</p>
+    <p>Reinforcement learning fits this naturally, provided the reward means
+       something. Here the grader is the physics: a proposed process step or a
+       proposed molecule is scored by whether it survives the structure, energy
+       and transport calculations we already trust, so the policy learns to
+       reason in the direction of things that hold up.</p>
+    <p>Pointed at electrolytes, that turns a months-long search into a
+       shortlist: reason about the process, generate candidates, screen them —
+       and walk into the lab with the ones that have a reason to work.</p>
   links: []
 
-- title: Language models that know electrolyte physics
-  icon: books_stack
-  accent: gold
+- kicker: representation learning
+  short: Mixtures, not components
   blurb: >-
-    27,000 papers on lithium-metal electrolytes carry mechanisms and design
-    rules that never reach a training table. I train reasoning models against
-    <em>verifiable</em> rewards — simulation and experiment as the grader —
-    so the chemistry knowledge becomes something you can check.
-  note: "ACS Fall 2026"
+    A representation where composition is part of the input, so a blend
+    predicts like a blend.
+  figure: mixture
+  accent: green
+  title: Predicting the properties of mixtures, as mixtures
+  note: "composition in, property out"
+  post: |
+    <p>Almost everything worth predicting is a mixture: a solvent blend, a salt
+       at some concentration, an additive at a fraction of a percent. Models
+       built on pure components handle these badly, because the thing that
+       matters is not the components — it is how they sit next to each other.</p>
+    <p>Rather than assuming a mixing rule and fitting its coefficients, we learn
+       a representation in which composition is part of the input. Molecules are
+       encoded, combined in that learned space, and the resulting mixture
+       embedding predicts the property directly, so non-ideal and
+       concentration-dependent behaviour is something the model can express
+       rather than something we have to bolt on afterwards.</p>
+    <p>The payoff is a predictor that works where the interesting chemistry
+       lives: off the ends of the composition range, in blends nobody has
+       measured, and across families it has not seen.</p>
+  links: []
+
+- kicker: statistical mechanics
+  short: Generative models of solutions
+  blurb: >-
+    A model of the solvation shell, so you can describe a structure and get the
+    formulation back.
+  figure: generative
+  accent: gold
+  title: Designing solvation structure instead of guessing formulations
+  note: "design the shell, not the solvent"
+  post: |
+    <p>Solvation structure is not a number. Two electrolytes with the same
+       average coordination number can behave nothing alike, because the average
+       hides the shape of the crowd — and it is the shape that governs
+       transport, stability and reactivity.</p>
+    <p>So we model the distribution itself: a generative model trained on
+       molecular dynamics and anchored in the statistical mechanics of the
+       solution, which learns the free-energy landscape of the solvation shell
+       and samples from it. That inverts the usual direction of the search. You
+       describe the structure you want — a coordination number, a shell
+       composition, a geometry — and the model proposes the solvents and salts
+       that produce it.</p>
+    <p>Instead of measuring what a formulation does and iterating, we start from
+       the behaviour we want and let the physics of the ensemble tell us where
+       to look.</p>
   links: []

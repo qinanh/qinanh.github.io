@@ -1,21 +1,22 @@
 # ── 站点身份 ──────────────────────────────────────────────
 title:  Qinan Huang
-tagline: Computational electrolyte design
+tagline: Machine learning for chemistry
 description: >-
-  Qinan Huang — molecular simulation, quantum chemistry and generative
-  models for lithium-metal battery electrolytes.
+  Qinan Huang — machine learning for chemistry: property prediction,
+  statistical mechanics and solution systems.
 url:      "https://qinanh.com"
 baseurl:  ""
 lang:     en
 
 author:
   name:        Qinan Huang
+  name_zh:     黄祺楠                      # 中文名，显示在英文名下面
   role:        PhD student                 # ← 改成你的实际身份
   group:       Amanchukwu Lab
   department:  Pritzker School of Molecular Engineering
   institution: The University of Chicago
   photo:       /assets/img/portrait.jpg    # ← 放一张头像进来
-  email:       qinanhuang6@gmail.com     # 旧站上公开的那个；要换成学校邮箱就改这里
+  email:       qinanh@uchicago.edu
   # 下面几项确认后取消注释即可显示
   github:      qinanh          # gh CLI 登录的是这个号；要用 tetryl-boy 就改这里
   # scholar:   XXXXXXXXXXXX                # Google Scholar user= 后面那串
@@ -43,3 +44,7 @@ exclude:
   - vendor
   - README.md
   - .jekyll-cache
+  - serve.sh          # 本地开发脚本，别发到线上
+  - tools
+  - shot-m.png
+  - og-card.html      # 只用来生成 assets/img/og.png，不是页面

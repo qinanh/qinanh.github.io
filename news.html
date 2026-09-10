@@ -1,0 +1,17 @@
+---
+layout: default
+title: News — Qinan Huang
+---
+
+<section>
+  <div class="sec reveal"><h2>news</h2><span class="aside">all of it</span></div>
+  {%- if site.data.news and site.data.news.size > 0 %}
+  <div class="news">
+    {%- for n in site.data.news %}
+    <div class="item reveal" style="--d:{{ forloop.index0 | times: 50 | at_most: 250 }}ms">
+      <div class="date">{{ n.date }}</div><div class="what">{{ n.html }}</div></div>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+  <p class="backlink reveal"><a href="{{ '/' | relative_url }}#about">← back to the homepage</a></p>
+</section>

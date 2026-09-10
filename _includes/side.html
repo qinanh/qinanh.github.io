@@ -1,0 +1,73 @@
+{%- comment -%} 左侧固定栏：头像 + 身份 + 联系方式 + 菜单。两页共用。 {%- endcomment -%}
+{%- assign a = site.author -%}
+<aside class="side">
+  <div class="portrait">
+    <div class="frame">
+      {%- if a.photo %}
+      <img src="{{ a.photo | relative_url }}" alt="Portrait of {{ a.name }}"
+           onerror="this.closest('.frame').classList.add('noimg');this.remove()">
+      {%- else %}
+      <div class="placeholder">放一张头像<br>到 assets/img/</div>
+      {%- endif %}
+    </div>
+  </div>
+
+  <h1 class="name">{{ a.name }}<span class="swipe"></span></h1>
+  {%- if a.name_zh %}<p class="name-zh">{{ a.name_zh }}</p>{% endif %}
+
+  <p class="role">
+    {{ a.role }} <span class="at">@</span> {{ a.group }}<br>
+    <span class="at">{{ a.department }}</span><br>
+    <span class="at">{{ a.institution }}</span>
+  </p>
+
+  <div class="contact">
+    {%- if a.email %}
+    <a class="chip" href="mailto:{{ a.email }}" title="{{ a.email }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M3 7l9 6 9-6"/></svg> email</a>
+    {%- endif %}
+    {%- if a.scholar %}
+    <a class="chip" href="https://scholar.google.com/citations?user={{ a.scholar }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1.5 8.5 12 14l10.5-5.5z"/><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg> Scholar</a>
+    {%- endif %}
+    {%- if a.github %}
+    <a class="chip" href="https://github.com/{{ a.github }}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5a10.5 10.5 0 0 0-3.32 20.47c.52.1.71-.23.71-.5v-1.96c-2.9.63-3.52-1.25-3.52-1.25-.48-1.21-1.16-1.53-1.16-1.53-.95-.65.07-.63.07-.63 1.05.07 1.6 1.08 1.6 1.08.94 1.6 2.45 1.14 3.05.87.09-.68.36-1.14.66-1.4-2.32-.27-4.76-1.16-4.76-5.16 0-1.14.41-2.07 1.07-2.8-.1-.27-.46-1.33.1-2.77 0 0 .88-.28 2.88 1.07a9.9 9.9 0 0 1 5.24 0c2-1.35 2.87-1.07 2.87-1.07.57 1.44.21 2.5.1 2.77.67.73 1.07 1.66 1.07 2.8 0 4.01-2.44 4.89-4.77 5.15.38.32.71.96.71 1.94v2.87c0 .28.19.61.71.5A10.5 10.5 0 0 0 12 1.5z"/></svg> GitHub</a>
+    {%- endif %}
+    {%- if a.orcid %}
+    <a class="chip" href="https://orcid.org/{{ a.orcid }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M9 9v7M9 6.6v.1M13 16V9h2a3.5 3.5 0 0 1 0 7z"/></svg> ORCID</a>
+    {%- endif %}
+    {%- if a.twitter %}
+    <a class="chip" href="https://x.com/{{ a.twitter }}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 8.2 10h-6.4l-5-6.1L4.7 21H1.5l7.5-8.6L1.2 3h6.6l4.5 5.6zm-1.1 16.1h1.8L7.7 4.8H5.8z"/></svg> X</a>
+    {%- endif %}
+    {%- if a.linkedin %}
+    <a class="chip" href="https://linkedin.com/in/{{ a.linkedin }}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5zM3 9.5h4v11H3zM10 9.5h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.76v5.69h-4v-5.04c0-1.2-.02-2.75-1.7-2.75-1.7 0-1.96 1.31-1.96 2.66v5.13h-4z"/></svg> LinkedIn</a>
+    {%- endif %}
+    {%- if a.cv %}
+    <a class="chip" href="{{ a.cv | relative_url }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h7.5L19 8v13.5H6z"/><path d="M13.5 2.5V8H19M9 13h7M9 17h5"/></svg> CV</a>
+    {%- endif %}
+  </div>
+
+  {%- comment -%} 整站一页，菜单就是这一页的目录：锚点跳转，
+       每项带编号，有新内容的挂一枚 new 小标签。 {%- endcomment -%}
+  {%- assign newest = site.data.publications | map: 'year' | sort | last -%}
+  {%- assign thisyear = site.time | date: '%Y' | plus: 0 -%}
+  <nav class="menu">
+    <a href="{{ '/' | relative_url }}#about" data-sec="about">
+      <span class="mlabel">about</span>
+      <span class="mmeta"><span class="mnum">01</span></span>
+    </a>
+    <a href="{{ '/' | relative_url }}#research" data-sec="research">
+      <span class="mlabel">research</span>
+      <span class="mmeta"><span class="mnum">02</span></span>
+    </a>
+    <a href="{{ '/' | relative_url }}#publications" data-sec="publications">
+      <span class="mlabel">publications</span>
+      <span class="mmeta">
+        <span class="mnum">03</span>
+        {%- if newest >= thisyear %}<span class="mtag">new</span>{% endif %}
+      </span>
+    </a>
+    <a href="{{ '/' | relative_url }}#code" data-sec="code">
+      <span class="mlabel">code</span>
+      <span class="mmeta"><span class="mnum">04</span></span>
+    </a>
+  </nav>
+</aside>

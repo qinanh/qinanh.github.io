@@ -1,0 +1,91 @@
+{%- comment -%} 首屏开场：动画电池 + 简化名片 + 下滑提示。只给 front matter 里
+   写了 opening: true 的页面用（目前只有首页）。 {%- endcomment -%}
+{%- assign a = site.author -%}
+<section class="opening">
+  <div class="opening-in">
+    <p class="opening-tag reveal">{{ site.tagline }}</p>
+
+    <div class="opening-row">
+      <div class="bizcard reveal">
+      <div class="bc-face">
+        <div class="bc-name">{{ a.name }}{% if a.name_zh %}<span class="bc-name-zh">{{ a.name_zh }}</span>{% endif %}</div>
+        <div class="bc-role">{{ a.role }} <span class="at">@</span> {{ a.group }}</div>
+        <div class="bc-inst">{{ a.department }}</div>
+        <div class="bc-inst">{{ a.institution }}</div>
+        <div class="bc-rule"></div>
+        {%- if a.email %}
+        <a class="bc-mail" href="mailto:{{ a.email }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M3 7l9 6 9-6"/></svg>
+          {{ a.email }}</a>
+        {%- endif %}
+      </div>
+    </div>
+
+      <div class="cellwrap reveal" style="--d:150ms">
+      <svg class="cell" viewBox="0 0 440 320" role="img"
+           aria-label="Schematic of a battery cell: anode and cathode with an electrolyte between them, lithium ions drifting through it.">
+        <title>A battery cell — ions moving through the electrolyte</title>
+
+        <defs>
+          <clipPath id="electrolyte-clip">
+            <rect x="120" y="92" width="200" height="152" rx="10"/>
+          </clipPath>
+        </defs>
+
+        <!-- 外电路：阳极 → 外线 → 阴极 -->
+        <path class="wire" d="M72 96 L72 44 L368 44 L368 96"/>
+        <g class="electrons">
+          <circle class="e" cx="72" cy="44" r="4.6"/>
+          <circle class="e" cx="72" cy="44" r="4.6" style="animation-delay:-1.1s"/>
+          <circle class="e" cx="72" cy="44" r="4.6" style="animation-delay:-2.2s"/>
+        </g>
+
+        <!-- 电解液 -->
+        <rect class="electrolyte" x="120" y="92" width="200" height="152" rx="10"/>
+
+        <!-- 离子（裁在电解液范围内，飘出去也看不见） -->
+        <g clip-path="url(#electrolyte-clip)">
+          <g class="ion i-cat" style="animation-duration:5.4s">
+            <circle cx="158" cy="128" r="12"/>
+            <circle class="shell" cx="158" cy="128" r="19"/>
+          </g>
+          <g class="ion i-cat" style="animation-duration:6.8s;animation-delay:-2s">
+            <circle cx="212" cy="196" r="12"/>
+            <circle class="shell" cx="212" cy="196" r="19"/>
+          </g>
+          <g class="ion i-cat" style="animation-duration:4.6s;animation-delay:-3.4s">
+            <circle cx="288" cy="150" r="12"/>
+            <circle class="shell" cx="288" cy="150" r="19"/>
+          </g>
+
+          <g class="ion i-an" style="animation-duration:6.1s;animation-delay:-1.2s">
+            <circle cx="250" cy="118" r="10"/>
+          </g>
+          <g class="ion i-an" style="animation-duration:7.4s;animation-delay:-4s">
+            <circle cx="172" cy="212" r="10"/>
+          </g>
+          <g class="ion i-an" style="animation-duration:5.7s;animation-delay:-2.6s">
+            <circle cx="300" cy="212" r="10"/>
+          </g>
+        </g>
+
+        <!-- 电极 -->
+        <rect class="anode"   x="44"  y="92" width="58" height="152" rx="11"/>
+        <rect class="cathode" x="338" y="92" width="58" height="152" rx="11"/>
+        <text class="pole" x="73"  y="178" text-anchor="middle">&#8722;</text>
+        <text class="pole" x="367" y="178" text-anchor="middle">+</text>
+
+        <text class="lbl" x="73"  y="270" text-anchor="middle">anode</text>
+        <text class="lbl" x="367" y="270" text-anchor="middle">cathode</text>
+        <text class="lbl lbl-el" x="220" y="270" text-anchor="middle">electrolyte</text>
+      </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <a class="scrollcue" href="#main">
+    <span>scroll down to continue</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
+</section>
