@@ -301,11 +301,11 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 
 /* ───────────────────────  项目  ─────────────────────── */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+@media(max-width:1200px){.rgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:640px){
   .rgrid{grid-template-columns:minmax(0,1fr);gap:26px}
   .posts{min-height:0}
 }
-@media(max-width:1200px){.rgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.grid2{grid-template-columns:1fr}}
 .proj{
   display:block;padding:18px 20px;border-radius:18px;border:2px solid var(--c-line);
@@ -533,7 +533,7 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   .side .portrait{max-width:148px}
   .side .name{font-size:37px;margin-top:16px}
   .side .contact{margin-top:14px}
-  .menu{flex-direction:row;gap:22px;margin-top:18px}
+  .menu{flex-direction:row;flex-wrap:wrap;gap:4px 20px;margin-top:18px;padding-top:14px}
 }
 
 /* ══ 顶部大标题栏 ═════════════════════════════════════
@@ -615,7 +615,9 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
 }
 .bc-name{font-family:var(--round);font-weight:600;font-size:29px;line-height:1.1;color:var(--ink);margin:0}
 .bc-name-zh{font-family:var(--cjk);font-weight:600;font-size:20px;line-height:1.2;
-  color:var(--ink-soft);margin-left:10px;letter-spacing:.16em;vertical-align:2px}
+  color:var(--ink-soft);margin-left:10px;letter-spacing:.16em;vertical-align:2px;
+  white-space:nowrap}   /* 中文名整个换行，别在「黄祺」后面断 */
+.bc-name{overflow-wrap:anywhere}
 .bc-role{font-family:var(--hand);font-size:15.5px;line-height:1.35;color:var(--purple-text);margin-top:9px}
 .bc-role .at{color:var(--ink-soft)}
 .bc-role + .bc-inst{margin-top:9px}
@@ -689,6 +691,32 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   main{border-radius:20px 20px 0 0}
 }
 @media(max-width:620px){ .brand-tag{display:none} }
+
+/* ── 手机（≤560px）─────────────────────────────────────
+   论文行原本是「缩略图 + 正文 + 期刊章」三栏，窄屏上中间只剩 180px，
+   标题要折四五行。改成两栏，期刊章挪到标题底下横着排。
+   顺手把封面、卡片的内边距收一号，别让一屏塞不下。 */
+@media(max-width:560px){
+  .pubrow{grid-template-columns:52px minmax(0,1fr);gap:6px 12px;align-items:start}
+  .pubrow .pthumb{width:52px;height:52px;border-radius:9px}
+  .pubrow h3{font-size:15px;margin-bottom:3px}
+  .pubrow .pmeta{grid-column:2;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}
+  .pubrow .pmeta a{font-size:12px}
+
+  .layout{padding:26px var(--gutter) 56px}
+  .side .portrait{max-width:124px}
+  .side .name{font-size:31px}
+  .rcard{padding:12px 13px 15px}
+  .post{padding:16px 16px 15px}
+  .post h3{font-size:18px}
+  .post p{font-size:16px}
+
+  .opening{padding:52px 18px 84px}
+  .opening-in{gap:28px}
+  .opening-row{gap:26px}
+  .bizcard{max-width:300px}
+  .cellwrap{width:min(320px,82vw)}
+}
 @media(prefers-reduced-motion:reduce){
   .cell,.cell .ion,.cell .e,.cell .ion .shell,.scrollcue{animation:none}
   .js .topbar{transition:none}

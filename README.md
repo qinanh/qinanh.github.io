@@ -102,6 +102,21 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 论文列表那行是 `grid-template-columns:68px minmax(0,1fr) auto` —— `.pmain` 上的
 `min-width:0` 不能删，不然 `white-space:nowrap` 的作者行会把栅格撑破。
 
+**断点顺序有坑。** `.rgrid` 的 `@media(max-width:1200px)`（两列）必须写在
+`@media(max-width:640px)`（一列）**前面** —— 两条选择器权重一样，后写的赢。
+反过来的话手机上还是两列，卡片挤成一条。
+
+窄屏上另有两处：
+
+- `@media(max-width:820px)` —— 左栏不再 sticky，菜单从竖排改横排，加了
+  `flex-wrap:wrap`。不加的话 5 项在 464px 的栏里要 565px，整页会被撑出横向滚动条
+- `@media(max-width:560px)` —— 论文行从「缩略图 + 正文 + 期刊章」三栏收成两栏，
+  期刊章挪到标题底下；封面、卡片内边距各收一号
+
+自查办法：`document.documentElement.scrollWidth === clientWidth` 且没有元素
+`getBoundingClientRect().right > innerWidth`（`overflow:auto` 里的除外，比如那条
+渲染图带是故意横滑的）。
+
 ## 分享卡（og:image）
 
 `assets/img/og.png` 是从 `og-card.html` 截出来的 1200×630。改了身份信息后重新生成：
