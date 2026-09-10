@@ -1,0 +1,32 @@
+{%- comment -%} 目录。左栏（ctx=side）和手机顶栏（ctx=top）共用这一份，
+   加一节菜单只改这里，两边同时生效。
+   整站一页，所以菜单就是这一页的目录：锚点跳转，每项带编号，
+   有新内容的挂一枚 new 小标签。 {%- endcomment -%}
+{%- assign newest = site.data.publications | map: 'year' | sort | last -%}
+{%- assign thisyear = site.time | date: '%Y' | plus: 0 -%}
+<nav class="menu{% if include.ctx == 'top' %} menu-top{% endif %}"
+     {% if include.ctx == 'top' %}aria-label="Sections"{% endif %}>
+  <a href="{{ '/' | relative_url }}#about" data-sec="about">
+    <span class="mlabel">about</span>
+    <span class="mmeta"><span class="mnum">01</span></span>
+  </a>
+  <a href="{{ '/' | relative_url }}#research" data-sec="research">
+    <span class="mlabel">research</span>
+    <span class="mmeta"><span class="mnum">02</span></span>
+  </a>
+  <a href="{{ '/' | relative_url }}#publications" data-sec="publications">
+    <span class="mlabel">publications</span>
+    <span class="mmeta">
+      <span class="mnum">03</span>
+      {%- if newest >= thisyear %}<span class="mtag">new</span>{% endif %}
+    </span>
+  </a>
+  <a href="{{ '/' | relative_url }}#code" data-sec="code">
+    <span class="mlabel">code</span>
+    <span class="mmeta"><span class="mnum">04</span></span>
+  </a>
+  <a href="{{ '/news.html' | relative_url }}"{% if page.url contains 'news' %} class="on"{% endif %}>
+    <span class="mlabel">news</span>
+    <span class="mmeta"><span class="mnum">05</span></span>
+  </a>
+</nav>

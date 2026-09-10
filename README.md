@@ -22,13 +22,35 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 `_includes/side.html`（头像 / 身份 / 联系方式 / 菜单），右边是正文。
 左栏 `position:sticky`，往下滑一直挂在旁边。
 
-- **改菜单**：编辑 `_includes/side.html` 末尾的 `<nav class="menu">`，
+- **改菜单**：只改 `_includes/menu.html`。左栏和手机顶栏是同一个 include
+  （靠 `include.ctx` 区分 `side` / `top` 两套样式），加一项两边同时生效。
   当前页靠 `page.url` 比对自动加 `.on`（实心金点）
 - **加一页**：仓库根目录新建 `xxx.html`，开头写 front matter
-  （`layout: default` + `title:`），再去菜单加一行即可
+  （`layout: default` + `title:`），再去 `menu.html` 加一行即可
 - ⚠️ `sticky` 怕祖先元素有 `overflow:hidden`。**别给 `main` / `body` 加这个属性**，
   会把左栏的固定效果弄没
-- 窄屏（≤820px）左栏自动回到顶部、取消 sticky，菜单变成横排
+- 窄屏（≤820px）是**另一套版式**，不是把桌面版压扁：左栏取消 sticky、收成
+  「小头像 + 名字 + 身份 + 联系方式」的身份条，菜单整块搬进顶栏横排。
+  手机上封面也不再钉住（`.opening{position:relative}`），滚过去就跟着走
+
+## 联系方式 / 社交
+
+`_includes/socials.html` 一处定义，两处渲染：
+
+| `include.ctx` | 出现在 | 长相 |
+|---|---|---|
+| `chips` | 左栏身份条下面 | 带字的大 chip（`✉ email` / `GitHub` / `X` / `in LinkedIn`） |
+| `icons` | 顶栏右上角 | 光图标的小圆钮，字用 `.slab` 藏起来 |
+
+顶栏那排是必须的：手机上左栏会跟着滚走，只有顶栏一直挂着。
+
+加渠道只改 `_config.yml` 的 `author:` —— 每个键对应一个 `{%- if a.xxx %}`，
+**注释掉就不渲染**。`email` / `scholar` / `github` / `orcid` / `twitter`(→x.com) /
+`linkedin` / `cv` 都支持，`scholar` 和 `orcid` 目前还是注释状态。
+
+⚠️ 每个图标是一行 `{% assign s_xxx = '<svg…>' %}`，下面靠 `{{ s_xxx }}` 引用。
+**加图标时这两个名字必须完全一致** —— 不一致时 Liquid 不报错，只是静默输出空字符串，
+圆钮会变成一个空圈（X 那个就踩过这个坑）。
 
 ## 滚动浮现
 
@@ -64,7 +86,13 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 ## 还差什么
 
 - [ ] `assets/cv.pdf` —— 没有就把 `_config.yml` 里的 `cv:` 那行删掉
-- [ ] `_config.yml` 里 `scholar:` / `orcid:` 填上
+- [ ] `_config.yml` 里 `scholar:` / `orcid:` 填上（**用户还没提供**）
+- [x] `github:` 对过，是本人
+- [x] `twitter:`（`EricQinanHuang`）对过，是本人 —— 简介写着 Incoming PhD
+      Student @UChicagoPME，站点栏挂的是 `qinanh.com`，等于自证
+- [ ] `linkedin:`（`qinan-huang-516551237`）**没验证成功** —— LinkedIn 对匿名
+      抓取一律返 999 / 直接弹注册墙，从命令行和真浏览器都看不到公开页。
+      等本人确认，或换成自己复制出来的那个 URL
 
 已完成：头像 `assets/img/portrait.jpg` 已就位；`_data/publications.yml`
 里的占位条目已全部替换成真实条目（现在在 `publications.html` 那一页）。
@@ -110,16 +138,34 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 论文列表那行是 `grid-template-columns:68px minmax(0,1fr) auto` —— `.pmain` 上的
 `min-width:0` 不能删，不然 `white-space:nowrap` 的作者行会把栅格撑破。
 
-**断点顺序有坑。** `.rgrid` 的 `@media(max-width:1200px)`（两列）必须写在
-`@media(max-width:640px)`（一列）**前面** —— 两条选择器权重一样，后写的赢。
-反过来的话手机上还是两列，卡片挤成一条。
+**断点顺序是大坑，已经踩过两次。** 同权重选择器后写的赢，而 `@media` 本身
+**不加权重**，所以「同一条规则」写在窄屏块里、原始定义却在文件后面时，
+原始定义会赢，手机上根本不生效：
+
+- `.rgrid` 的 `@media(max-width:1200px)`（两列）必须写在 `@media(max-width:640px)`
+  （一列）**前面**。反过来手机上还是两列，卡片挤成一条
+- `.opening{position:relative}` / `.opening-in{opacity:1}` 那三行必须写在
+  `.opening` / `.opening-in` / `.scrollcue` 原始定义**之后**（文件靠下的那个
+  `@media(max-width:820px)` 块里）。之前写在前面的 820 块里，结果手机上封面照旧
+  sticky，正文顶上来时浮着一层鬼影
+
+**`--tb`（顶栏占位高度）不再手写，由 JS 量。** `assets/js/reveal.js` 开头那段
+把 `.topbar` 的真实高度写进 `:root --tb`（加载 / resize / 字体加载完各跑一次）。
+因为顶栏高度会变：390 宽是 89px、780 宽是 93px，而 CSS 里那个 `54px` / `74px`
+是**没 JS 时的兜底值**。写死数字的话锚点跳转会钻到顶栏底下（差 8–15px）。
 
 窄屏上另有两处：
 
-- `@media(max-width:820px)` —— 左栏不再 sticky，菜单从竖排改横排，加了
-  `flex-wrap:wrap`。不加的话 5 项在 464px 的栏里要 565px，整页会被撑出横向滚动条
+- `@media(max-width:820px)` —— 整块换版式（见上面「版式」那节）。顶栏目录
+  要求 **5 项一次全看见**，所以去掉了竖排用的那个小圆点、字号收到 12.5px，
+  用 `space-between` 把空档摊匀；`overflow-x:auto` 留着只是兜底，正常滚不动
+  （390 宽实测 `scrollWidth === offsetWidth === 390`）
+- `@media(min-width:561px) and (max-width:820px)` —— 上一条的 `space-between`
+  在平板宽度会把 5 个词拉开上百像素，看着散架；这里改成 `flex-start` +
+  `gap:30px` 贴左边排
 - `@media(max-width:560px)` —— 论文行从「缩略图 + 正文 + 期刊章」三栏收成两栏，
-  期刊章挪到标题底下；封面、卡片内边距各收一号
+  期刊章挪到标题底下；封面、卡片内边距各收一号；顶栏社交圆钮收到 27px
+  （不然「品牌名 + 4 个圆钮」在 390 宽会顶到边）
 
 自查办法：`document.documentElement.scrollWidth === clientWidth` 且没有元素
 `getBoundingClientRect().right > innerWidth`（`overflow:auto` 里的除外，比如那条
@@ -190,6 +236,8 @@ Pages 那边一直卡在 "certificate provisioning"。
 - `/news.html` 挂在左侧菜单第 05 项，从每一页都链得到（不加内链它就只能靠 sitemap 被发现）
 
 `sameAs` 会跟着 `_config.yml` 走：把 `scholar:` / `orcid:` 取消注释就自动并进去。
+**链接必须是真的** —— 结构化数据里的假链接比没有更糟。所以 `scholar:` /
+`orcid:` 才一直空着（等本人给 ID）；已确认的是 GitHub 和 X。
 
 手动部分（代码改不了，得登进去点）：
 
@@ -207,6 +255,15 @@ Pages 那边一直卡在 "certificate provisioning"。
 - 手写体 `Caveat` 只出现在章节标题、日期、注解和链接标签；正文是 `Nunito`，
   标题是 `Fredoka`（圆胖，跟图标的圆角呼应）
 - 单一浅色主题，没做 dark mode —— 纸质配色换深色要整套重配，不值当
+- 章节大标题（`.sec h2/h1`）用**荧光笔**强调：`clamp(32px,3.3vw,46px)` +
+  一层 `linear-gradient` 半透明色带。⚠️ 色带必须走 `background-image`，
+  **不能**用 `::before` + `z-index:-1` —— `body` 没建层叠上下文，负 z-index
+  会沉到 `body` 背景底下，看着像没渲染出来
+- 「what I work on」那三张卡点开时，`.posts` 顶上会长出一枚旋转 45° 的方角
+  （`::before`），横向位置由 JS 写进 `--stem`（被点那张卡的中线），
+  所以面板看起来是从那张卡里抽出来的。卡片右侧的 `chevron` 同步转 180°
+- `.post p` 限宽 `86ch`：面板占满整栏是为了跟三张卡对齐，但正文一行的字
+  不能跟着拉那么长
 
 ## 硬规矩
 

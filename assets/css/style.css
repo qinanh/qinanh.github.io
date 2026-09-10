@@ -88,7 +88,8 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 }
 .role .at{color:var(--ink-soft)}
 /* 组名做成链接：手写体行里的链接不能用默认蓝底线，会跳出来 */
-.role .at-link,.bc-role .at-link{color:var(--purple-text);border-bottom:2px solid var(--purple);padding-bottom:1px}
+.role .at-link,.bc-role .at-link{color:var(--purple-text);border-bottom:2px solid var(--purple);
+  padding-bottom:1px;white-space:nowrap}   /* 组名整个走，不许在中间断 */
 .role .at-link:hover,.bc-role .at-link:hover{color:var(--ink);border-bottom-color:var(--ink)}
 .bio p{margin:0 0 12px;max-width:60ch;color:var(--ink-soft)}
 .bio strong{color:var(--ink);font-weight:700}
@@ -127,15 +128,22 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 .chip svg{width:14px;height:14px;flex:none}
 
 /* ─────────────────────── 章节标题 ─────────────────────── */
-.sec{margin:62px 0 22px;position:relative}
+.sec{margin:66px 0 24px;position:relative}
 .sec h2,.sec h1{
-  font-family:var(--hand);font-weight:700;font-size:31px;line-height:1;
-  margin:0;display:inline-block;color:var(--ink);
+  font-family:var(--hand);font-weight:700;
+  font-size:clamp(32px,3.3vw,46px);line-height:1.08;
+  margin:0 0 0 -7px;display:inline-block;color:var(--ink);
+  /* 标题底下扫一道记号笔底色。用 background-image 而不是 ::before 配
+     z-index:-1：body 没建层叠上下文，负 z-index 会一路沉到 body 背景
+     后面，颜色直接看不见。 */
+  padding:1px 15px 5px 7px;
+  background-image:linear-gradient(97deg,rgba(176,125,30,.27),rgba(176,125,30,.10) 52%,rgba(176,125,30,.24));
+  background-size:100% 53%;background-position:0 77%;background-repeat:no-repeat;
   transform:rotate(-.7deg);transform-origin:left center;position:relative;
 }
 .sec h2::after,.sec h1::after{                       /* 手绘波浪下划线 */
-  content:"";position:absolute;left:-3px;right:-9px;bottom:-11px;height:9px;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'><path d='M2 6 C 28 2, 55 8, 82 4.5 S 138 7.5, 165 3.6 S 190 6, 198 4' stroke='%232e5c8a' stroke-width='2.1' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
+  content:"";position:absolute;left:1px;right:-7px;bottom:-10px;height:11px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 9' preserveAspectRatio='none'><path d='M2 6 C 28 2, 55 8, 82 4.5 S 138 7.5, 165 3.6 S 190 6, 198 4' stroke='%232e5c8a' stroke-width='2.6' fill='none' stroke-linecap='round'/></svg>") center/100% 100% no-repeat;
 }
 .sec .aside{
   font-family:var(--hand);font-size:15px;color:var(--slate-text);
@@ -201,13 +209,21 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
   background:var(--c,var(--gold));border-radius:2px;transform:rotate(-.5deg);
 }
 .rtag{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
   font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
   color:var(--ink-faint);
 }
+.rkick{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rcare{                               /* 点开时会转半圈，提示这是可展开的 */
+  width:13px;height:13px;flex:none;color:var(--ink-faint);
+  transition:transform .26s cubic-bezier(.22,.61,.36,1),color .16s ease;
+}
+.rcard:hover .rcare{color:var(--ink-soft)}
 .rcard[aria-selected=true] .rtag{color:var(--c,var(--purple-text))}
+.rcard[aria-selected=true] .rcare{transform:rotate(180deg);color:var(--c,var(--purple-text))}
 .rfig{
   display:block;border:2.2px solid var(--ink);border-radius:14px;
-  background:var(--c-fill);overflow:hidden;
+  background:var(--c-fill);overflow:hidden;padding:5px;
   box-shadow:2px 3px 0 rgba(43,49,56,.12);
 }
 .rtitle{font-family:var(--round);font-weight:600;font-size:18px;line-height:1.24}
@@ -227,12 +243,30 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 .fig .fcore{fill:var(--ink)}
 .fig .fok{fill:none;stroke:var(--green-text);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .fig .fno{fill:none;stroke:var(--ink-faint);stroke-width:2;stroke-linecap:round}
-.fig .flab{font-family:var(--round);font-size:12.5px;font-weight:500;fill:var(--ink)}
-.fig .fnote{font-family:var(--hand);font-size:12.5px;fill:var(--ink-soft)}
-.fig .ftiny{font-family:var(--mono);font-size:10px;fill:var(--ink-faint)}
+.fig .flab{font-family:var(--round);font-size:13px;font-weight:500;fill:var(--ink)}
+.fig .fnote{font-family:var(--hand);font-size:13px;fill:var(--ink-soft)}
+.fig .ftiny{font-family:var(--mono);font-size:10.5px;fill:var(--ink-faint)}
 
-/* 展开的 post —— 高度锁住，点不同节点不会让整段跳来跳去 */
-.posts{margin-top:16px;min-height:172px}
+/* 展开的 post —— 高度锁住，点不同节点不会让整段跳来跳去。
+   顶上那枚尖角由 JS 写 --stem 定位到「被点开的那张卡」的中线，
+   看着就像那张卡自己往下抽出来一截。 */
+.posts{position:relative;margin-top:15px;min-height:172px}
+.posts.picked::before{
+  content:"";position:absolute;top:-12px;left:var(--stem,50%);margin-left:-9px;
+  width:18px;height:18px;transform:rotate(45deg);
+  background:var(--paper-2);border-left:2.6px solid var(--ink);border-top:2.6px solid var(--ink);
+  border-radius:5px 0 0 0;opacity:0;pointer-events:none;
+  transition:left .3s cubic-bezier(.22,.61,.36,1),opacity .18s ease;
+}
+.posts.picked.revealed::before{opacity:1}
+@keyframes post-open{
+  from{opacity:0;transform:translateY(-7px);clip-path:inset(0 0 100% 0 round 18px)}
+  to  {opacity:1;transform:none;             clip-path:inset(0 0 0 0 round 18px)}
+}
+.posts.picked .post.on{animation:post-open .34s cubic-bezier(.22,.61,.36,1) both}
+@media(prefers-reduced-motion:reduce){
+  .posts.picked .post.on{animation:none}
+}
 .post{
   border:2.4px solid var(--ink);border-radius:20px;background:var(--paper-2);
   padding:20px 24px 18px;box-shadow:5px 6px 0 rgba(43,49,56,.13);
@@ -248,7 +282,8 @@ a:hover{color:var(--ink);border-bottom-color:var(--purple)}
 }
 .post h3::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;
   background:var(--c,var(--purple));margin-right:10px;vertical-align:2px}
-.post p{margin:0 0 10px;color:var(--ink-soft);font-size:16.5px;line-height:1.62}
+.post p{margin:0 0 10px;color:var(--ink-soft);font-size:16.5px;line-height:1.62;
+  max-width:86ch}                     /* 框可以铺满，行宽得收住，不然读不下去 */
 .post p:last-child{margin-bottom:0}
 .post-note{font-family:var(--hand);font-size:15.5px;color:var(--c,var(--slate-text))}
 .post-links{display:flex;gap:14px;font-family:var(--hand);font-size:15.5px}
@@ -439,7 +474,8 @@ html{color-scheme:light}
    宽度跟着浏览器走：宽屏铺满到 1360，两侧留白按 vw 放大，
    不写死像素，这样论文那种长标题不用挤成两行。 */
 :root{--max:min(1600px,100%)}
-:root{--tb:54px}                 /* 顶栏高度：吸附和 sticky 都按它让位 */
+:root{--tb:54px}     /* 顶栏高度，吸附和 sticky 按它让位。只是没 JS 时的
+                        兜底值 —— 实际由 reveal.js 量出真实高度后覆盖。 */
 
 .layout{
   display:grid;grid-template-columns:224px minmax(0,1fr);gap:clamp(30px,3.2vw,54px);
@@ -499,6 +535,18 @@ html{color-scheme:light}
 .menu a.on::before{background:var(--gold);border-color:var(--ink);transform:scale(1.1)}
 .menu a.on:hover{transform:none}
 
+/* 顶栏里那份目录（menu.html 的 ctx=top）。跟左栏那份是同一个 include，
+   所以加一节菜单两边同时生效。桌面上藏着，≤820px 才出现。 */
+.menu-top{
+  display:none;flex-direction:row;flex-wrap:nowrap;
+  justify-content:space-between;align-items:center;gap:0 7px;
+  max-width:var(--max);margin:0 auto;padding:0 var(--gutter);
+  border-top:none;margin-top:0;
+  overflow-x:auto;overscroll-behavior-x:contain;   /* 兜底：正常永远不滚 */
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.menu-top::-webkit-scrollbar{display:none}
+
 /* ══ 逐屏吸附 ═════════════════════════════════════════
    首页每个 section 撑满一屏（短内容居中撑开，长内容自然长高），
    滚动时一屏一停，不会半屏卡着两个 section。scroll-snap-stop
@@ -529,14 +577,45 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   .snap .strip-wrap{margin:0}
 }
 
-/* ── 窄屏：左栏回到顶部，取消 sticky ─────────────────── */
+/* ── 窄屏（≤820px）：一栏 + 目录上顶 ─────────────────────────
+   桌面那套是「左栏钉住、目录竖排」。手机上这一栏会把正文挤到右边，
+   横向也塞不下，所以整块换掉：
+     · 目录搬进顶栏（menu.html 同一个 include 的第二份）
+     · 左栏缩成横排的身份条：小头像 + 名字 + 联系方式
+     · 封面不再 sticky，滚过去就跟着走，不用淡出那套 */
 @media(max-width:820px){
-  .layout{grid-template-columns:minmax(0,1fr);gap:30px;padding:36px var(--gutter) 70px}
-  .side{position:static}
-  .side .portrait{max-width:148px}
-  .side .name{font-size:37px;margin-top:16px}
-  .side .contact{margin-top:14px}
-  .menu{flex-direction:row;flex-wrap:wrap;gap:4px 20px;margin-top:18px;padding-top:14px}
+  :root{--tb:74px}     /* 兜底：手机顶栏多一行目录。真值同样由 JS 量。 */
+  .layout{grid-template-columns:minmax(0,1fr);gap:26px;padding:30px var(--gutter) 70px}
+
+  .side{
+    position:static;
+    display:grid;grid-template-columns:104px minmax(0,1fr);
+    grid-template-areas:"pic name" "pic zh" "pic role" "chips chips";
+    gap:1px 16px;align-items:start;
+  }
+  .side .portrait{grid-area:pic;max-width:104px}
+  .side .portrait .frame{border-radius:16px}
+  .side .name{grid-area:name;font-size:27px;margin:0}
+  .side .name-zh{grid-area:zh;font-size:16px;letter-spacing:.14em;margin:2px 0 0}
+  .side .role{grid-area:role;font-size:15px;margin:7px 0 0}
+  .side .contact{grid-area:chips;margin-top:14px}
+  .side .menu{display:none}
+
+  .topbar-in{padding:8px 18px 5px}
+  /* 目录搬上顶栏，5 项必须一眼全看见 —— 不横滑、不分页。
+     400px 宽里塞 5 个词，所以：竖排那个小圆点去掉（白占 10px），
+     字号收一号，改用 space-between 把空档摊匀。 */
+  .menu-top{display:flex;padding-bottom:9px;gap:0 6px}
+  .menu-top a{padding:3px 0;font-size:12.5px;gap:0}
+  .menu-top a::before{display:none}
+  .menu-top a.on::before{display:block;width:6px;height:6px;border-width:1.8px;margin-right:4px}
+  .menu-top .mnum{display:none}    /* 编号是给竖排用的，横排一行塞不下 */
+  .menu-top .mtag{font-size:9.5px;padding:1.5px 3.5px 2px;border-width:1.5px;margin-left:4px}
+}
+/* 小平板（561–820）宽出来的一截别再摊进字缝里：space-between 会把
+   5 个词拉开上百像素，看着散架。改成贴左边排，间距封顶。 */
+@media(min-width:561px) and (max-width:820px){
+  .menu-top{justify-content:flex-start;gap:0 30px}
 }
 
 /* ══ 顶部大标题栏 ═════════════════════════════════════
@@ -566,6 +645,22 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   font-family:var(--hand);font-size:15.5px;color:var(--slate-text);
   transform:rotate(-.5deg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
+/* 顶栏右边：tagline + 一排社交小圆钮。左栏那排会跟着滚走，
+   这排一直挂在顶上，手机上也能随手点到。 */
+.brand-right{display:flex;align-items:center;gap:clamp(9px,1.5vw,20px);min-width:0}
+.socials{display:flex;align-items:center;gap:7px;flex:none}
+.sicon{
+  display:inline-flex;align-items:center;justify-content:center;flex:none;
+  width:30px;height:30px;border-radius:50%;
+  color:var(--ink-soft);background:var(--paper-2);
+  border:2px solid var(--rule);              /* 顺带盖掉 a{} 那条下划线 */
+  transition:transform .16s ease,background-color .16s ease,
+             color .16s ease,border-color .16s ease;
+}
+.sicon svg{width:14.5px;height:14.5px}
+.sicon .slab{display:none}                    /* 顶栏只留图标，字藏起来 */
+.sicon:hover{transform:translateY(-2px);color:var(--ink);
+  background:var(--gold-fill);border-color:var(--gold-line)}
 .topbar-prog{
   position:absolute;left:0;right:0;bottom:0;height:3px;
   background:var(--gold);transform-origin:left center;
@@ -682,6 +777,15 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
 .scrollcue:hover .chev{color:var(--ink)}
 @keyframes cue-bob{0%,100%{translate:0 0}50%{translate:0 7px}}
 
+/* 手机上封面不钉住：滚过去就跟着走，不用淡出那套。
+   ⚠️ 这段必须排在文件后面 —— .opening / .opening-in / .scrollcue 的原始
+   定义在下面，选择器权重一样，媒体查询不加权重，先写的会被后写的盖掉。
+   之前写在 ≤820px 那块里，结果手机上封面照旧 sticky，内容顶上浮一层鬼影。 */
+@media(max-width:820px){
+  .opening{position:relative}
+  .opening-in{opacity:1}
+  .scrollcue{opacity:1}
+}
 @media(max-width:900px){
   .topbar-in{padding:9px 18px 10px}
   .brand-name{font-size:20px}
@@ -694,6 +798,12 @@ html:has(main.snap){scroll-padding-top:var(--tb)}   /* 锚点别缩到顶栏底�
   main{border-radius:20px 20px 0 0}
 }
 @media(max-width:620px){ .brand-tag{display:none} }
+/* 窄屏：品牌名 + 四个圆钮要挤在一行里，圆钮收一号 */
+@media(max-width:560px){
+  .socials{gap:5px}
+  .sicon{width:27px;height:27px}
+  .sicon svg{width:13px;height:13px}
+}
 
 /* ── 手机（≤560px）─────────────────────────────────────
    论文行原本是「缩略图 + 正文 + 期刊章」三栏，窄屏上中间只剩 180px，

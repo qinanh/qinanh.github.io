@@ -1,36 +1,39 @@
 {%- comment -%} 配图三：左边写下想要的溶剂化结构 → 生成模型 → 右边吐出候选配方；
    底下那条是统计力学那层的自由能景观，井底那个点就是采样到的地方。 {%- endcomment -%}
-<svg class="fig" viewBox="0 0 320 176" role="img"
+<svg class="fig" viewBox="0 0 360 200" role="img"
      aria-label="A target solvation shell is described on the left, a generative model in the middle, candidate formulations on the right, and a free-energy landscape along the bottom.">
   <title>Designing a solvation structure from a statistical-mechanics model</title>
 
-  <text class="fnote" x="48" y="15" text-anchor="middle">target shell</text>
-  <circle class="fdash" cx="48" cy="50" r="28"/>
-  <path class="fs" d="M48 22 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M69 43 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M48 64 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <path class="fs" d="M27 43 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
-  <circle class="fcore" cx="48" cy="50" r="7.5"/>
+  <text class="fnote" x="62" y="24" text-anchor="middle">target shell</text>
+  <circle class="fdash" cx="62" cy="76" r="32"/>
+  <path class="fs" d="M62 35 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M94 67 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M62 99 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <path class="fs" d="M30 67 l6 3.5 v7 l-6 3.5 -6 -3.5 v-7 z"/>
+  <circle class="fcore" cx="62" cy="76" r="8"/>
 
-  <path class="fs" d="M82 50 H116"/>
-  <path class="fs" d="M112 45 l5.5 5 -5.5 5"/>
-  <text class="ftiny" x="99" y="41" text-anchor="middle">design</text>
+  <path class="fs" d="M102 76 H134"/>
+  <path class="fs" d="M129 71 l5.5 5 -5.5 5"/>
+  <text class="ftiny" x="118" y="66" text-anchor="middle">design</text>
 
-  <rect class="fbox" x="124" y="26" width="78" height="50" rx="13"/>
-  <text class="fnote" x="163" y="46" text-anchor="middle">generative</text>
-  <text class="flab" x="163" y="66" text-anchor="middle">model</text>
+  <rect class="fbox" x="142" y="46" width="92" height="60" rx="15"/>
+  <text class="fnote" x="188" y="70" text-anchor="middle">generative</text>
+  <text class="flab" x="188" y="91" text-anchor="middle">model</text>
 
-  <rect class="fbox" x="228" y="18" width="84" height="152" rx="14"/>
-  <text class="ftiny" x="270" y="36" text-anchor="middle">candidates</text>
-  <circle class="fatom" cx="246" cy="68" r="8"/>
-  <path class="fs" d="M262 68 H294"/>
-  <path class="fok" d="M298 66 l4 5 8 -11"/>
-  <circle class="fatom" cx="246" cy="106" r="8"/>
-  <path class="fs" d="M262 106 H294"/>
-  <circle class="fatom" cx="246" cy="144" r="8"/>
-  <path class="fs" d="M262 144 H294"/>
+  <path class="fs" d="M240 76 H262"/>
+  <path class="fs" d="M257 71 l5.5 5 -5.5 5"/>
 
-  <text class="fnote" x="12" y="120">free energy</text>
-  <path class="fcurve" d="M12 142 C 32 142, 38 168, 62 168 C 88 168, 92 144, 120 144 C 146 144, 152 170, 184 170 C 194 170, 200 166, 204 162"/>
-  <circle class="fatom" cx="62" cy="161" r="7"/>
+  <rect class="fbox" x="268" y="26" width="72" height="118" rx="15"/>
+  <text class="ftiny" x="304" y="46" text-anchor="middle">candidates</text>
+  <circle class="fatom" cx="286" cy="74" r="7"/>
+  <path class="fs" d="M300 74 H324"/>
+  <path class="fok" d="M328 71 l4 5 8 -11"/>
+  <circle class="fatom" cx="286" cy="104" r="7"/>
+  <path class="fs" d="M300 104 H324"/>
+  <circle class="fatom" cx="286" cy="134" r="7"/>
+  <path class="fs" d="M300 134 H324"/>
+
+  <text class="fnote" x="16" y="172" text-anchor="start">free energy</text>
+  <path class="fcurve" d="M84 164 C 104 164, 110 188, 136 188 C 164 188, 170 164, 200 164 C 228 164, 234 190, 268 190 C 284 190, 294 183, 304 175"/>
+  <circle class="fatom" cx="136" cy="182" r="7"/>
 </svg>

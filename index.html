@@ -7,11 +7,11 @@ snap: true
 <section id="about" class="intro reveal">
   <div class="sec reveal"><h2>about</h2></div>
   <div class="bio">
-    <p>I'm a PhD student in the <a href="{{ site.author.lab_url }}">Amanchukwu Lab</a>
-       at the University of Chicago, advised by
+    <p>I'm a PhD candidate in the {{ site.author.group }} at the
+       {{ site.author.department }}, {{ site.author.institution }}, advised by
        <a href="{{ site.author.advisor_url }}">{{ site.author.advisor }}</a>.
-       I did a BS in chemistry at <strong>Hunan University</strong> (2024), then an
-       MS in molecular engineering at the <strong>University of Chicago</strong> (2026).</p>
+       Before that a BS in chemistry at <strong>Hunan University</strong> (2024), then an
+       MS in molecular engineering at <strong>UChicago</strong> (2026).</p>
 
     <p>I work on <strong>machine learning for chemistry</strong> — models that predict how
        molecules behave, and the methods that make those predictions reliable enough
@@ -57,7 +57,7 @@ snap: true
 
 {%- if site.data.research and site.data.research.size > 0 %}
 <section id="research">
-  <div class="sec reveal"><h2>what I work on</h2><span class="aside">three threads, click one for the story</span></div>
+  <div class="sec reveal"><h2>what I work on</h2><span class="aside">three threads &mdash; click one to open it</span></div>
 
   {%- comment -%} 三张配图卡。点一张，下面 .posts 里换成那一张的 long post。
        卡里的图在 _includes/fig_*.html；没 JS 时三篇 post 全摊开显示，不会白屏。 {%- endcomment -%}
@@ -69,7 +69,7 @@ snap: true
             data-accent="{{ r.accent | default: 'slate' }}"
             aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
             style="--d:{{ forloop.index0 | times: 80 | at_most: 320 }}ms">
-      <span class="rtag">{{ r.kicker }}</span>
+      <span class="rtag"><span class="rkick">{{ r.kicker }}</span><svg class="rcare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></span>
       <span class="rfig">{% if r.figure == 'rl' %}{% include fig_rl.html %}{% elsif r.figure == 'mixture' %}{% include fig_mixture.html %}{% elsif r.figure == 'generative' %}{% include fig_generative.html %}{% endif %}</span>
       <span class="rtitle">{{ r.short | default: r.title }}</span>
       <span class="rsum">{{ r.blurb }}</span>

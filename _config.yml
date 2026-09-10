@@ -2,9 +2,9 @@
 title:  Qinan Huang
 tagline: Machine learning for chemistry
 description: >-
-  Qinan Huang (黄祺楠) — PhD student in the Amanchukwu Lab at the University of
-  Chicago. Machine learning for chemistry: property prediction, statistical
-  mechanics and solution systems.
+  Qinan Huang (黄祺楠) — PhD candidate in the Amanchukwu Lab at the Pritzker
+  School of Molecular Engineering, University of Chicago. Machine learning for
+  chemistry: property prediction, statistical mechanics and solution systems.
 url:      "https://qinanh.com"
 baseurl:  ""
 lang:     en
@@ -12,11 +12,11 @@ lang:     en
 author:
   name:        Qinan Huang
   name_zh:     黄祺楠                      # 中文名，显示在英文名下面
-  role:        PhD student                 # ← 改成你的实际身份
+  role:        PhD candidate               # 显示在左栏和封面名片上
   group:       Amanchukwu Lab
   lab_url:     https://amanchukwu.uchicago.edu/
   advisor:     Chibueze Amanchukwu
-  advisor_url: https://pme.uchicago.edu/faculty/chibueze-amanchukwu
+  advisor_url: https://amanchukwu.uchicago.edu/   # 导师名直接连到组主页
   department:  Pritzker School of Molecular Engineering
   institution: The University of Chicago
   # 学历会写进 about 那一段，也会生成 JSON-LD 的 alumniOf
@@ -30,11 +30,15 @@ author:
   photo:       /assets/img/portrait.jpg    # ← 放一张头像进来
   email:       qinanh@uchicago.edu
   # 下面几项确认后取消注释即可显示
-  github:      qinanh          # gh CLI 登录的是这个号；要用 tetryl-boy 就改这里
-  # scholar:   XXXXXXXXXXXX                # Google Scholar user= 后面那串
-  # orcid:     0000-0000-0000-0000
-  twitter:     EricQinanHuang
-  linkedin:    qinan-huang-516551237
+  # 下面填了的会同时出现在左栏 chip、顶栏圆钮和 JSON-LD 的 sameAs 里。
+  # 注释掉的行不渲染。改这里就够了，_includes/socials.html 不用动。
+  github:      qinanh          # 已核对是本人；gh CLI 登录的也是这个号
+  # scholar:   XXXXXXXXXXXX                # Google Scholar user= 后面那串（等本人给）
+  # orcid:     0000-0000-0000-0000         # 等本人给
+  twitter:     EricQinanHuang  # 已核对是本人：简介 Incoming PhD Student @UChicagoPME，
+                               # 站点栏挂 qinanh.com
+  linkedin:    qinan-huang-516551237   # ⚠️ 没验证成功：LinkedIn 对匿名抓取一律 999 / 注册墙，
+                                       # 命令行和真浏览器都看不到公开页。等本人确认
   # cv:        /assets/cv.pdf           # 放 PDF 到 assets/ 后取消注释
 
 # ── 构建 ─────────────────────────────────────────────────

@@ -104,8 +104,12 @@
       <img class="brand-mark" src="{{ '/assets/icons/flask.svg' | relative_url }}" alt="">
       <span class="brand-name">{{ site.author.name }}{% if site.author.name_zh %}<span class="brand-zh">{{ site.author.name_zh }}</span>{% endif %}</span>
     </a>
-    <span class="brand-tag">{{ site.tagline }}</span>
+    <span class="brand-right">
+      <span class="brand-tag">{{ site.tagline }}</span>
+      {% include socials.html ctx='icons' %}
+    </span>
   </div>
+  {% include menu.html ctx='top' %}
   <span class="topbar-prog" aria-hidden="true"></span>
 </header>
 

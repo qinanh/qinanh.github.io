@@ -1,29 +1,30 @@
-# "what I work on" 三张配图大卡。点一张卡，下面换成那张卡的 short post。
-# kicker 是卡上的小标签；short 是卡名；blurb 是卡上那一行概述（一行就够）；
-# title 是展开后 post 的标题；figure 选 _includes/fig_*.html 里的一张手绘图。
-# post 只写两句话 —— 这里是"介绍"，不是 abstract，长了就没人看。
+# "what I work on" 三张配图卡。点一张卡，下面展开那张卡的介绍。
+# kicker 是卡上的小标签；short 是卡名；blurb 是卡上那一行概述
+#   —— 卡上就一行，写长了自己会折成三行，把整节撑高，所以往短里写。
+# title 是展开后的标题；figure 选 _includes/fig_*.html 里的一张手绘图。
+# post 只写两句话：这段是点开才看到的，卡上不显示。
 # accent: gold | purple | green | blue
 
 - kicker: post-training · RL
   short: Reasoning for molecular design
   blurb: >-
-    A model that reasons about a physical process before it screens the molecule.
+    Reason about the process first, screen the molecule second.
   figure: rl
   accent: purple
   title: Language models that reason about physical processes
   note: "the grader is physics, not a label"
   post: |
-    <p>I post-train language models with reinforcement learning whose reward comes
-       from physics rather than labels: the model reasons through a process —
-       mechanism, structure, candidate — and simulation decides whether the
-       reasoning holds up. Pointed at electrolytes, that turns a months-long
-       search into a shortlist.</p>
+    <p>I post-train language models with reinforcement learning whose reward
+       comes from physics rather than labels: the model reasons through a
+       mechanism or a structure, and simulation decides whether the reasoning
+       holds. Pointed at electrolytes, that turns a months-long search into a
+       shortlist.</p>
   links: []
 
 - kicker: representation learning
   short: Mixtures, not components
   blurb: >-
-    Composition goes into the input, so a blend predicts like a blend.
+    Composition goes in, so a blend predicts like a blend.
   figure: mixture
   accent: green
   title: Predicting the properties of mixtures, as mixtures
@@ -31,23 +32,23 @@
   post: |
     <p>Almost everything worth predicting is a mixture, and models built on pure
        components handle them badly — what matters is how the components sit next
-       to each other. I learn a representation where composition is part of the
-       input, so non-ideal, concentration-dependent behaviour is something the
-       model can express rather than something bolted on afterwards.</p>
+       to each other. I learn a representation with composition in the input, so
+       non-ideal, concentration-dependent behaviour is something the model can
+       express rather than something bolted on.</p>
   links: []
 
 - kicker: statistical mechanics
   short: Generative models of solutions
   blurb: >-
-    Describe the solvation structure you want; get the formulation back.
+    Describe the shell you want; get the formulation back.
   figure: generative
   accent: gold
   title: Designing solvation structure instead of guessing formulations
   note: "design the shell, not the solvent"
   post: |
-    <p>An average coordination number hides the shape of the crowd, and it is the
-       shape that governs transport and stability. I train generative models
-       anchored in the statistical mechanics of the solution, which invert the
-       search: describe the solvation structure you want, and the model proposes
-       the solvents and salts that produce it.</p>
+    <p>An average coordination number hides the shape of the crowd, and the
+       shape is what governs transport and stability. I train generative models
+       anchored in the solution's statistical mechanics, which invert the search:
+       describe the solvation structure you want, and the model proposes the
+       solvents and salts that produce it.</p>
   links: []

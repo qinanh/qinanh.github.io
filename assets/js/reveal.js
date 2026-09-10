@@ -1,3 +1,25 @@
+/* 顶栏的真实高度写进 --tb。
+   锚点跳转、sticky 的左栏都按 --tb 让位，可顶栏在手机上多一行目录、
+   在桌面上少一行，硬编码一个数总差几像素（实测 390 宽是 82、780 宽是 91）。
+   所以直接量。只在加载和 resize 时写一次，不跟着滚动写。 */
+(function () {
+  var bar = document.querySelector('.topbar');
+  if (!bar) return;
+  var root = document.documentElement;
+  var last = 0;
+  function sync() {
+    var h = Math.round(bar.getBoundingClientRect().height);
+    if (!h || h === last) return;
+    last = h;
+    root.style.setProperty('--tb', h + 'px');
+  }
+  sync();
+  window.addEventListener('resize', sync);
+  window.addEventListener('orientationchange', sync);
+  if (window.ResizeObserver) new ResizeObserver(sync).observe(bar);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+})();
+
 /* 滚动浮现：给 .reveal 元素在进入视口时挂上 .is-in。
    只做单向揭示，露出后即 unobserve，不来回闪。 */
 (function () {
@@ -108,26 +130,46 @@
   frame();
 })();
 
-/* 「what I work on」的三张配图卡：点一张，下面换成那一张的长介绍。
+/* 「what I work on」的三张配图卡：点一张，下面展开那一张的介绍。
    没 JS 的时候 .posts 不加 .picked，三篇会全部摊开显示，不会白屏。 */
 (function () {
   var posts = document.querySelector('.posts');
   var tabs  = document.querySelectorAll('.rcard[data-post]');
   if (!posts || tabs.length < 2) return;
 
+  var current = null;                  /* 当前展开的那张卡，resize 时要重算尖角 */
+
+  /* 把卡片中线的 x 换算成 .posts 坐标系里的位置，写进 --stem。
+     面板顶上那枚尖角就停在这，看着像卡片自己往下抽出来一截。
+     卡片本身带 ±0.6° 旋转，getBoundingClientRect 出来的中心仍然准。 */
+  function aim(card) {
+    var pr = posts.getBoundingClientRect();
+    var cr = card.getBoundingClientRect();
+    if (!pr.width) return;
+    posts.style.setProperty('--stem', (cr.left - pr.left + cr.width / 2).toFixed(1) + 'px');
+  }
+
   function pick(id) {
+    var active = null;
     for (var i = 0; i < tabs.length; i++) {
       var on = tabs[i].getAttribute('data-post') === id;
       tabs[i].setAttribute('aria-selected', on ? 'true' : 'false');
       tabs[i].tabIndex = on ? 0 : -1;
+      if (on) active = tabs[i];
     }
     var arts = posts.querySelectorAll('.post');
     for (var j = 0; j < arts.length; j++) {
       arts[j].classList.toggle('on', arts[j].id === id);
     }
+    if (active) { current = active; aim(active); }
   }
 
   posts.classList.add('picked');
+  /* 首屏那次定位是瞬间完成的，别让尖角从 50% 滑过去，所以先藏一帧 */
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { posts.classList.add('revealed'); });
+  });
+  window.addEventListener('resize', function () { if (current) aim(current); });
 
   for (var k = 0; k < tabs.length; k++) {
     tabs[k].addEventListener('click', function () { pick(this.getAttribute('data-post')); });
