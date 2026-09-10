@@ -187,6 +187,16 @@
     });
   }
 
+  /* 深链接：URL 带 #<post-id> 就直接展开那一张。
+     ⚠️ 这里必须比对 data-post，不能用 getElementById 判断存不存在 ——
+     @ 的 section id 就叫 about / research / publications / code，
+     而 location.hash 正好是 #research 这种。之前用 getElementById 判，
+     pick('research') 谁都不匹配、把三篇全关掉，面板整块空白。
+     也就是说任何带锚点的 URL（刷新、书签、别人转的链接）都会中招。 */
   var hash = (location.hash || '').replace('#', '');
-  pick(document.getElementById(hash) ? hash : tabs[0].getAttribute('data-post'));
+  var wanted = null;
+  for (var h = 0; h < tabs.length; h++) {
+    if (tabs[h].getAttribute('data-post') === hash) { wanted = hash; break; }
+  }
+  pick(wanted || tabs[0].getAttribute('data-post'));
 })();
