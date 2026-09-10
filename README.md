@@ -270,6 +270,20 @@ pkill -x firefox; pkill -x Xvfb; pkill -f "[h]ttp.server 4300"
 仓库 Settings → Pages → Source 选 **GitHub Actions**（不是 "Deploy from a branch"）。
 自定义域名填 `qinanh.com`，`CNAME` 文件已经在仓库里了。
 
+`deploy-pages` 那一步显式设了 `timeout: 1800000`（30 分钟）。默认只有 10 分钟，
+Pages 后端拥堵时会直接 `Timeout reached, aborting!` 而构建本身是好的。
+
+如果部署报 `due to in progress deployment. Please cancel <sha> first`，说明后端卡住了
+一个旧部署。`deploy-pages` 日志里 `Created deployment ... ID: <sha>` 的那个 sha 就是
+Pages 部署 ID，用它可以释放：
+
+```bash
+gh api "repos/qinanh/qinanh.github.io/pages/deployments/<sha>"          # 看状态
+gh api -X POST "repos/qinanh/qinanh.github.io/pages/deployments/<sha>/cancel"
+```
+
+（`deployments` API 里的数字 ID 不行，会 404。）
+
 Cloudflare DNS 侧：
 
 | 记录 | 名称 | 值 |
@@ -294,9 +308,8 @@ Pages 那边一直卡在 "certificate provisioning"。
   这两条别改成 `<div>`，也别再加第二个 `<h1>` —— 这是搜索"Qinan Huang"最直接的信号
 - `/news.html` 挂在左侧菜单第 05 项，从每一页都链得到（不加内链它就只能靠 sitemap 被发现）
 
-`sameAs` 会跟着 `_config.yml` 走：把 `scholar:` / `orcid:` 取消注释就自动并进去。
-**链接必须是真的** —— 结构化数据里的假链接比没有更糟。所以 `scholar:` /
-`orcid:` 才一直空着（等本人给 ID）；已确认的是 GitHub 和 X。
+`sameAs` 会跟着 `_config.yml` 走，目前 GitHub / X / LinkedIn / ORCID / Scholar 五个
+都已确认填好。**链接必须是真的** —— 结构化数据里的假链接比没有更糟，改之前先验证。
 
 手动部分（代码改不了，得登进去点）：
 
