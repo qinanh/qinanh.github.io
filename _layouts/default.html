@@ -5,17 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- JS 可用时才隐藏待浮现元素；禁用 JS 时页面照常完整显示 -->
 <script>document.documentElement.classList.add('js')</script>
-<title>{{ page.title | default: site.title }}</title>
-<meta name="description" content="{{ site.description | strip_newlines }}">
-<link rel="canonical" href="{{ page.url | absolute_url }}">
+{%- comment -%} SEO。首页没有 page.title，就用「姓名 — tagline」当标题，
+   比光一个名字更容易被搜到。 {%- endcomment -%}
+{%- assign seo_desc  = page.description | default: site.description | strip_newlines -%}
+<title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
+<meta name="description" content="{{ seo_desc }}">
+<meta name="author"      content="{{ site.author.name }}">
+<link rel="canonical"    href="{{ page.url | absolute_url }}">
 
 <!-- 社交分享卡片：在 X / Slack / 微信里贴链接时会用到 -->
 <meta property="og:type"        content="website">
-<meta property="og:title"       content="{{ site.title }} — {{ site.tagline }}">
-<meta property="og:description" content="{{ site.description | strip_newlines }}">
-<meta property="og:url"         content="{{ site.url }}{{ site.baseurl }}/">
+<meta property="og:site_name"   content="{{ site.title }}">
+<meta property="og:locale"      content="en_US">
+<meta property="og:title"       content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}">
+<meta property="og:description" content="{{ seo_desc }}">
+<meta property="og:url"         content="{{ page.url | absolute_url }}">
 <meta property="og:image"       content="{{ '/assets/img/og.png' | absolute_url }}">
-<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}">
+<meta name="twitter:description" content="{{ seo_desc }}">
+<meta name="twitter:image"       content="{{ '/assets/img/og.png' | absolute_url }}">
+{%- if site.author.twitter %}
+<meta name="twitter:creator" content="@{{ site.author.twitter }}">
+{%- endif %}
+
+{%- comment -%} 结构化数据：让 Google 认识「Qinan Huang 是谁」——
+   姓名（中英）、单位、邮箱、研究方向，以及几个 profile 的 sameAs 互指。 {%- endcomment -%}
+{%- assign a = site.author -%}
+{%- capture sameas -%}
+{%- assign sep = '' -%}
+{%- if a.github   %}{{ sep }}{{ a.github   | prepend: 'https://github.com/'            | jsonify }}{% assign sep = ',' %}{% endif -%}
+{%- if a.twitter  %}{{ sep }}{{ a.twitter  | prepend: 'https://x.com/'                 | jsonify }}{% assign sep = ',' %}{% endif -%}
+{%- if a.linkedin %}{{ sep }}{{ a.linkedin | prepend: 'https://www.linkedin.com/in/'   | jsonify }}{% assign sep = ',' %}{% endif -%}
+{%- if a.orcid    %}{{ sep }}{{ a.orcid    | prepend: 'https://orcid.org/'             | jsonify }}{% assign sep = ',' %}{% endif -%}
+{%- if a.scholar  %}{{ sep }}{{ a.scholar  | prepend: 'https://scholar.google.com/citations?user=' | jsonify }}{% assign sep = ',' %}{% endif -%}
+{%- endcapture -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ a.name | jsonify }},
+  "alternateName": {{ a.name_zh | jsonify }},
+  "url": {{ '/' | absolute_url | jsonify }},
+  "image": {{ a.photo | absolute_url | jsonify }},
+  "email": {{ a.email | prepend: 'mailto:' | jsonify }},
+  "jobTitle": {{ a.role | jsonify }},
+  "affiliation": {
+    "@type": "Organization",
+    "name": {{ a.institution | jsonify }},
+    "department": {{ a.department | jsonify }}
+  },
+  "knowsAbout": [
+    "machine learning for chemistry",
+    "electrolyte design",
+    "mixture property prediction",
+    "statistical mechanics",
+    "solvation structure",
+    "molecular dynamics"
+  ],
+  "sameAs": [{{ sameas }}]
+}
+</script>
 
 <link rel="icon" href="{{ '/assets/icons/flask.svg' | relative_url }}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
