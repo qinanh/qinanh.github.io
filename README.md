@@ -101,17 +101,34 @@ Ruby **不在系统里**，装在 micromamba 的 `rb` 环境。用封装脚本�
 
 `assets/img/og.png` 是从 `og-card.html` 截出来的 1200×630。改了身份信息后重新生成：
 
+Firefox 155 已经删掉 `--screenshot`，只能 Xvfb + ffmpeg 抓屏。两个坑：
+
+- `og-card.html` 在 `_config.yml` 的 `exclude` 里，**Jekyll 不发布它**，所以不能从
+  4100 抓。把它和它引用的三张图拷到一个临时目录，用 `python3 -m http.server` 单独伺服。
+- Firefox 的视口 = **屏幕的 90%**（1400×900 → 1260×810）。要正好抓到 1200×630，
+  Xvfb 就得开 **1340×720**。别按屏幕尺寸反推。
+
 ```bash
-# Firefox 155 已经删掉 --screenshot 参数，改用 Xvfb + ffmpeg 抓屏
-setsid Xvfb :99 -screen 0 1280x720x24 &
+cd ~/site
+mkdir -p /tmp/ogtmp/assets/img
+cp og-card.html /tmp/ogtmp/
+cp assets/img/{md_box_cg.svg,li_solvation_shell.svg,li_field_motif.png} /tmp/ogtmp/assets/img/
+(cd /tmp/ogtmp && setsid python3 -m http.server 4300 --bind 127.0.0.1 &)
+
+# snap 版 firefox 读不了 /tmp，profile 必须在 ~/snap 下；抓之前清掉会话/窗口状态
+python3 -c "import os;d=os.path.expanduser('~/snap/firefox/common/.mozilla/firefox/shotprof');[os.remove(os.path.join(d,f)) for f in ('sessionstore.jsonlz4','xulstore.json','.parentlock','lock') if os.path.exists(os.path.join(d,f))]"
+
+setsid Xvfb :97 -screen 0 1340x720x24 &
 sleep 3
-DISPLAY=:99 firefox --new-instance -P shotprof \
-  "http://127.0.0.1:4100/og-card.html" &
-sleep 15
-DISPLAY=:99 ffmpeg -f x11grab -video_size 1280x720 -i :99 \
-  -frames:v 1 -y ~/site/assets/img/og.png
-pkill -x firefox; pkill -x Xvfb
+# 必须前台跑在一个不退出的 shell 里，setsid + & 会立刻挂掉
+DISPLAY=:97 firefox --new-instance -P shotprof --kiosk http://127.0.0.1:4300/og-card.html
+# 另开一个终端等 20s 后抓屏：
+DISPLAY=:97 ffmpeg -f x11grab -draw_mouse 0 -video_size 1200x630 \
+  -i :97.0+0,0 -frames:v 1 -y ~/site/assets/img/og.png
+pkill -x firefox; pkill -x Xvfb; pkill -f "[h]ttp.server 4300"
 ```
+
+抓完**看一眼图**再提交 —— 黑屏或者被裁掉一角都是常见失败模式，看图两秒钟就能发现。
 
 ## 部署
 
@@ -129,6 +146,29 @@ Cloudflare DNS 侧：
 
 ⚠️ 代理状态先设 **DNS only（灰云）**，等 GitHub 签出证书再考虑开橙云，否则
 Pages 那边一直卡在 "certificate provisioning"。
+
+## 搜索 / SEO
+
+站点是**单页 + 一个 news 页**，能索引的就这两条。
+
+已经做好的：
+
+- `robots.txt`（`Allow: /` + 指向 sitemap）和 `sitemap.xml`（`jekyll-sitemap` 生成）
+- `<link rel="canonical">`、`description`、整套 `og:*` / `twitter:*`
+- head 里一段 **Person 结构化数据**（中英文名、单位、邮箱、`knowsAbout`、`sameAs`）
+- **全站只有一个 `<h1>`**：首页封面名片的名字、news 页的 "news"。
+  这两条别改成 `<div>`，也别再加第二个 `<h1>` —— 这是搜索"Qinan Huang"最直接的信号
+- `/news.html` 挂在左侧菜单第 05 项，从每一页都链得到（不加内链它就只能靠 sitemap 被发现）
+
+`sameAs` 会跟着 `_config.yml` 走：把 `scholar:` / `orcid:` 取消注释就自动并进去。
+
+手动部分（代码改不了，得登进去点）：
+
+1. **Google Search Console** → 添加资源 → 选「网域」→ 填 `qinanh.com`。
+   DNS 里已经有 `google-site-verification=...` 这条 TXT，点验证会直接过。
+2. 左侧「Sitemap」→ 提交 `https://qinanh.com/sitemap.xml`。
+3. 顶部「网址检查」→ 贴 `https://qinanh.com/` → 「请求编入索引」。首页进索引通常几天到两周。
+4. **Bing Webmaster Tools** → 可以直接「从 Google Search Console 导入」，省一次验证。
 
 ## 设计约定
 
